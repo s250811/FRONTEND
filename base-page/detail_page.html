@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>프로젝트 WBS 타임라인 (정적 HTML)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 스크린샷 느낌을 살리기 위한 약간의 커스텀 */
+    .card { box-shadow: 0 10px 20px rgba(0,0,0,0.06), 0 6px 6px rgba(0,0,0,0.06); }
+    .avatar { width: 22px; height: 22px; border-radius: 9999px; object-fit: cover; }
+    .pill { border-radius: 9999px; }
+    .wbs-col { border-right: 1px solid rgb(229 231 235); }
+    .today-line { position:absolute; top:0; bottom:0; width:2px; background:#ef4444; }
+    .task-bar { position:absolute; height:40px; border-radius:12px; display:flex; align-items:center; gap:10px; padding:6px 10px; }
+    .task-meta { font-size:12px; color:#6b7280; }
+    .task-percent { margin-left:auto; font-size:12px; padding:2px 8px; border-radius:9999px; background:#f3f4f6; }
+    /* 날짜 1~14 그리드 */
+    .wbs-grid { display:grid; grid-template-columns: repeat(14, minmax(0,1fr)); }
+  </style>
+</head>
+<body class="bg-[#e6f0f8] min-h-screen p-4">
+  <div class="mx-auto max-w-[1200px] border-8 border-[#b7d3ea] rounded-lg overflow-hidden bg-white card">
+    <div class="flex">
+      <!-- 사이드바 -->
+      <aside class="w-64 border-r border-gray-200 p-4 space-y-3 bg-white">
+        <div class="flex items-center gap-2 text-gray-800 font-semibold">
+          <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-gray-100">Ⅱ</span>
+          프로젝트 명
+        </div>
+        <nav class="text-sm text-gray-700 space-y-1 pt-2">
+          <a class="block px-2 py-1 rounded hover:bg-gray-50">알림함</a>
+          <div>
+            <button class="w-full text-left px-2 py-1 rounded hover:bg-gray-50">내 프로젝트</button>
+          </div>
+          <div>
+            <button class="w-full text-left px-2 py-1 rounded hover:bg-gray-50">체험기반 플러그</button>
+          </div>
+          <div>
+            <button class="w-full text-left px-2 py-1 rounded hover:bg-gray-50">계획 관리</button>
+          </div>
+          <div>
+            <div class="px-2 py-1 font-medium text-gray-900">산세미이지 개선</div>
+            <div class="pl-3 space-y-1">
+              <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 1</a>
+              <a class="block px-2 py-1 rounded bg-gray-100">하위 프로젝트 2</a>
+              <a class="block px-2 py-1 rounded hover:bg-gray-50">업무 1</a>
+              <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 3</a>
+              <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 4</a>
+              <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 5</a>
+              <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 6</a>
+            </div>
+          </div>
+          <div class="pt-2">
+            <a class="block px-2 py-1 rounded hover:bg-gray-50">휴지통</a>
+          </div>
+          <div class="pt-4 text-xs text-gray-500">
+            <div class="px-2 py-1">워크스페이스 초대</div>
+            <div class="px-2 py-1">워크스페이스 생성</div>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- 메인 -->
+      <main class="flex-1 p-6 bg-white">
+        <!-- 헤더 -->
+        <header class="flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl font-semibold">상위 프로젝트 이름</h1>
+              <span class="pill text-xs px-2 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200">● Active</span>
+            </div>
+            <div class="mt-2 flex items-center gap-2 text-sm text-gray-500">
+              <div class="flex -space-x-2">
+                <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=12" alt=""/>
+                <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=7" alt=""/>
+                <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=3" alt=""/>
+                <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=14" alt=""/>
+              </div>
+              <span>Alice, Bob, Charlie +12 others</span>
+            </div>
+          </div>
+          <button class="px-4 py-2 pill bg-gray-900 text-white text-sm">WBS</button>
+        </header>
+
+        <!-- 타임라인 카드 -->
+        <section class="mt-8 p-4 rounded-xl bg-white border border-gray-200 card">
+          <!-- 월 -->
+          <div class="text-gray-700 font-medium">4월</div>
+
+          <!-- 날짜 그리드 헤더 -->
+          <div class="wbs-grid mt-2 text-center text-gray-500 text-sm select-none">
+            <div class="py-2 wbs-col">1</div>
+            <div class="py-2 wbs-col">2</div>
+            <div class="py-2 wbs-col">3</div>
+            <div class="py-2 wbs-col">4</div>
+            <div class="py-2 wbs-col">5</div>
+            <div class="py-2 wbs-col">6</div>
+            <div class="py-2 wbs-col">7</div>
+            <div class="py-2 wbs-col font-semibold text-black bg-gray-100 rounded">8</div>
+            <div class="py-2 wbs-col">9</div>
+            <div class="py-2 wbs-col">10</div>
+            <div class="py-2 wbs-col">11</div>
+            <div class="py-2 wbs-col">12</div>
+            <div class="py-2 wbs-col">13</div>
+            <div class="py-2">14</div>
+          </div>
+
+          <!-- 타임라인 캔버스 -->
+          <div class="relative mt-2 border-t border-gray-200" style="height: 360px;">
+            <!-- 오늘(8일) 세로선: 7칸 완료 후 중앙 배치 (7/14 ~= 50%) -->
+            <div class="today-line" style="left: calc((7 / 14) * 100%);"></div>
+
+            <!-- 섹션 라벨들 (좌측) -->
+            <div class="absolute left-0 top-2 task-meta">하위 프로젝트 1</div>
+            <div class="absolute left-0 top-72 task-meta">하위 프로젝트 6</div>
+
+            <!-- 실제 바는 전체 캔버스 기준 %로 위치 고정 (left: (start-1)/14, width: length/14) -->
+            <!-- Row 1: Alexis Tran (1~3) -->
+            <div class="task-bar bg-gray-100 text-gray-700" style="left: calc((0/14)*100%); width: calc((3/14)*100%); top: 24px;">
+              <img class="avatar" src="https://i.pravatar.cc/40?img=21" alt="" />
+              <span class="text-sm">Alexis Tran</span>
+              <span class="task-percent">100%</span>
+            </div>
+
+            <!-- Row 2: Derek Yu (2~4) -->
+            <div class="task-bar bg-emerald-100 text-emerald-900" style="left: calc((1/14)*100%); width: calc((3/14)*100%); top: 84px;">
+              <img class="avatar" src="https://i.pravatar.cc/40?img=47" alt="" />
+              <span class="text-sm">Derek Yu</span>
+              <span class="task-percent">50%</span>
+            </div>
+
+            <!-- Row 3: Alice (3~7) 강조 -->
+            <div class="task-bar bg-emerald-200 text-emerald-900" style="left: calc((2/14)*100%); width: calc((5/14)*100%); top: 136px;">
+              <img class="avatar" src="https://i.pravatar.cc/40?img=5" alt="" />
+              <span class="text-sm font-medium">Alice</span>
+              <span class="task-percent">20%</span>
+            </div>
+
+            <!-- Row 4: Alexis Tran (4~6) -->
+            <div class="task-bar bg-gray-100 text-gray-700" style="left: calc((3/14)*100%); width: calc((3/14)*100%); top: 188px;">
+              <img class="avatar" src="https://i.pravatar.cc/40?img=21" alt="" />
+              <span class="text-sm">Alexis Tran</span>
+              <span class="task-percent">50%</span>
+            </div>
+
+            <!-- Row 5: Alexis Tran (6~8) -->
+            <div class="task-bar bg-gray-100 text-gray-700" style="left: calc((5/14)*100%); width: calc((3/14)*100%); top: 240px;">
+              <img class="avatar" src="https://i.pravatar.cc/40?img=21" alt="" />
+              <span class="text-sm">Alexis Tran</span>
+              <span class="task-percent">20%</span>
+            </div>
+
+            <!-- Row 6: Alice (6~9) -->
+            <div class="task-bar bg-gray-100 text-gray-700" style="left: calc((5/14)*100%); width: calc((4/14)*100%); top: 292px;">
+              <img class="avatar" src="https://i.pravatar.cc/40?img=5" alt="" />
+              <span class="text-sm">Alice</span>
+              <span class="task-percent">10%</span>
+            </div>
+
+            <!-- Row 7: Derek Yu (9~12) -->
+            <div class="task-bar bg-gray-100 text-gray-700" style="left: calc((8/14)*100%); width: calc((4/14)*100%); top: 344px;">
+              <img class="avatar" src="https://i.pravatar.cc/40?img=47" alt="" />
+              <span class="text-sm">Derek Yu</span>
+              <span class="task-percent">10%</span>
+            </div>
+          </div>
+
+          <!-- 하위 프로젝트 2 라벨 -->
+          <div class="mt-3 text-sm font-medium text-emerald-600 flex items-center gap-2">
+            <span>▾</span> 하위 프로젝트 2
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
