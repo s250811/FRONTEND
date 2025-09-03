@@ -1,15 +1,15 @@
-import Navigation from "@/components/navigation";
-import "@/app/globals.css"
+import Navigation from '@/components/navigation';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="ko">
-            <body>
-                <div className="flex flex-row">
+        <div className="min-h-dvh">
+            <div className="flex min-h-dvh">
+                <div className="flex-none shrink-0">
                     <Navigation />
-                    <main className="flex-1">{children}</main>
                 </div>
-            </body>
-        </html>
-    )
+
+                <main className="flex-1 min-w-0 overflow-auto">{children}</main>
+            </div>
+        </div>
+    );
 }
