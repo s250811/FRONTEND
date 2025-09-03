@@ -1,45 +1,124 @@
+'use client';
+
+import React from 'react';
+import { nav } from './style';
+
+type NavItemProps = {
+    as?: 'a' | 'button' | 'div';
+    href?: string; // as="a"일 때 사용할 href
+    children: React.ReactNode;
+    active?: boolean;
+    level?: 0 | 1 | 2;
+    className?: string;
+    onClick?: () => void;
+};
+
+function NavigationItem({
+    as: ElementType = 'a',
+    href,
+    children,
+    active = false,
+    level = 0,
+    className,
+    onClick,
+}: NavItemProps) {
+    const RenderElement = ElementType as React.ElementType;
+    const navigationIntent = ElementType === 'button' ? 'button' : 'link';
+
+    // ✅ 폭이 뭉개지지 않도록 기본적으로 줄어들지 않게(shrink-0) + 행 전체(block w-full)
+    const widthSafeBaseClass = 'block w-full shrink-0';
+
+    // 전달받은 className과 안전 클래스를 합치기
+    const mergedClassName = [widthSafeBaseClass, className].filter(Boolean).join(' ');
+
+    const commonProps: React.HTMLAttributes<HTMLElement> & { [key: string]: unknown } = {
+        className: nav.item({
+            active,
+            level,
+            intent: navigationIntent,
+            className: mergedClassName,
+        }),
+        onClick,
+    };
+
+    // 의미에 맞는 속성 부여
+    if (ElementType === 'a') {
+        commonProps.href = href ?? '#';
+        if (active) commonProps['aria-current'] = 'page';
+    }
+    if (ElementType === 'button') {
+        commonProps.type = 'button';
+    }
+    if (ElementType === 'div') {
+        commonProps.role = 'button';
+    }
+
+    return <RenderElement {...commonProps}>{children}</RenderElement>;
+}
+
 export default function Navigation() {
-  return (
-    /**
-     * - 프로필
-     */
-    <aside className="h-screen border-r border-gray-200 p-4 space-y-3 bg-white flex flex-col">
-      <div className="flex items-center gap-2 text-gray-800 font-semibold">
-        <span className="inline-flex items-center justify-center w-6 h-6 rounded bg-gray-100">Ⅱ</span>
-        프로젝트 명
-      </div>
-      {/** 메뉴 */}
-      <nav className="text-sm text-gray-700 space-y-1 pt-2 flex-1 overflow-y-auto">
-        <a className="block px-2 py-1 rounded hover:bg-gray-50">알림함</a>
-        <div>
-          <button className="w-full text-left px-2 py-1 rounded hover:bg-gray-50">내 프로젝트</button>
-        </div>
-        <div>
-          <button className="w-full text-left px-2 py-1 rounded hover:bg-gray-50">체험기반 플러그</button>
-        </div>
-        <div>
-          <button className="w-full text-left px-2 py-1 rounded hover:bg-gray-50">계획 관리</button>
-        </div>
-        <div>
-          <div className="px-2 py-1 font-medium text-gray-900">상세이미지 개선</div>
-          <div className="pl-3 space-y-1">
-            <a className="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 1</a>
-            <a className="block px-2 py-1 rounded bg-gray-100">하위 프로젝트 2</a>
-            <a className="block px-2 py-1 rounded hover:bg-gray-50">업무 1</a>
-            <a className="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 3</a>
-            <a className="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 4</a>
-            <a className="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 5</a>
-            <a className="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 6</a>
-          </div>
-        </div>
-        <div className="pt-2">
-          <a className="block px-2 py-1 rounded hover:bg-gray-50">휴지통</a>
-        </div>
-        <div className="pt-4 text-xs text-gray-500">
-          <div className="px-2 py-1">워크스페이스 초대</div>
-          <div className="px-2 py-1">워크스페이스 생성</div>
-        </div>
-      </nav>
-    </aside>
-  )
+    return (
+        <aside className={nav.aside()}>
+            {/* 헤더 */}
+            <div className={nav.header()}>
+                <span className={nav.badge()}>Ⅱ</span>
+                프로젝트 명
+            </div>
+
+            {/* 메뉴 */}
+            <nav className={nav.menu()} aria-label="사이드 내비게이션">
+                <NavigationItem href="/alerts">알림함</NavigationItem>
+
+                <div>
+                    <NavigationItem as="button">내 프로젝트</NavigationItem>
+                </div>
+                <div>
+                    <NavigationItem as="button">체험기반 플러그</NavigationItem>
+                </div>
+                <div>
+                    <NavigationItem as="button">계획 관리</NavigationItem>
+                </div>
+
+                <div>
+                    <div className={nav.sectionTitle()}>상세이미지 개선</div>
+                    <div className="space-y-1">
+                        <NavigationItem level={1} href="/p1">
+                            하위 프로젝트 1
+                        </NavigationItem>
+                        <NavigationItem level={1} active href="/p2">
+                            하위 프로젝트 2
+                        </NavigationItem>
+                        <NavigationItem level={1} href="/t1">
+                            업무 1
+                        </NavigationItem>
+                        <NavigationItem level={1} href="/p3">
+                            하위 프로젝트 3
+                        </NavigationItem>
+                        <NavigationItem level={1} href="/p4">
+                            하위 프로젝트 4
+                        </NavigationItem>
+                        <NavigationItem level={1} href="/p5">
+                            하위 프로젝트 5
+                        </NavigationItem>
+                        <NavigationItem level={1} href="/p6">
+                            하위 프로젝트 6
+                        </NavigationItem>
+                    </div>
+                </div>
+
+                <div className="pt-2">
+                    <NavigationItem href="/trash">휴지통</NavigationItem>
+                </div>
+
+                <div className={nav.smallMeta()}>
+                    <div className="px-2 py-1">
+                        <NavigationItem as="button">워크스페이스 초대</NavigationItem>
+                    </div>
+                    <div className="px-2 py-1">
+                        <NavigationItem as="button">워크스페이스 생성</NavigationItem>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+    );
 }

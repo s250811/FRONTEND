@@ -1,310 +1,415 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>프로젝트 WBS 타임라인 + 팝업</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .avatar { width: 22px; height: 22px; border-radius: 9999px; object-fit: cover; }
-  </style>
-</head>
-<body class="bg-[#e6f0f8] min-h-screen p-4">
-  <div class="mx-auto max-w-[1200px] border-8 border-[#b7d3ea] rounded-lg overflow-hidden bg-white">
-    <div class="flex">
-      <!-- 사이드바 -->
-      <aside class="w-64 border-r border-gray-200 p-4 bg-white">
-        <div class="flex items-center gap-2 text-gray-800 font-semibold">
-          <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-gray-100">Ⅱ</span>
-          프로젝트 명
-        </div>
-        <nav class="text-sm text-gray-700 mt-4 space-y-1">
-          <a class="block px-2 py-1 rounded hover:bg-gray-50">알림함</a>
-          <a class="block px-2 py-1 rounded hover:bg-gray-50">내 프로젝트</a>
-          <a class="block px-2 py-1 rounded hover:bg-gray-50">회원가입 관리</a>
-          <a class="block px-2 py-1 rounded hover:bg-gray-50">게시판 관리</a>
-          <div class="font-medium px-2 py-1">상세페이지 개선</div>
-          <div class="pl-3 space-y-1">
-            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 1</a>
-            <a class="block px-2 py-1 rounded bg-gray-100">하위 프로젝트 2</a>
-            <a class="block px-2 py-1 rounded hover:bg-gray-50">업무 1</a>
-            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 3</a>
-            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 4</a>
-            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 5</a>
-            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 6</a>
-          </div>
-        </nav>
-      </aside>
-
-      <!-- 메인 -->
-      <main class="flex-1 p-6 bg-white">
-        <header class="flex items-center justify-between">
-          <div>
-            <div class="flex items-center gap-2">
-              <h1 class="text-xl font-semibold">상위 프로젝트 이름</h1>
-              <span class="px-2 py-1 text-xs rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">● Active</span>
-            </div>
-            <div class="mt-2 flex items-center gap-2 text-sm text-gray-500">
-              <div class="flex -space-x-2">
-                <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=12"/>
-                <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=7"/>
-                <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=3"/>
-              </div>
-              <span>Alice, Bob, Charlie +12 others</span>
-            </div>
-          </div>
-          <button class="px-4 py-2 rounded-full bg-gray-900 text-white text-sm">WBS</button>
-        </header>
-
-        <!-- 팝업 모달 -->
-        <div class="fixed inset-0 z-50 flex items-start justify-center pt-16">
-          <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
-          <div class="relative z-10 w-[920px] rounded-2xl shadow-2xl overflow-hidden">
-            <div class="grid grid-cols-[1fr_260px]">
-              <!-- 본문 -->
-              <div class="bg-white p-6">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <h2 class="text-lg font-semibold">태스크 명</h2>
-                    <span class="px-2 py-1 text-xs rounded-full bg-sky-50 text-sky-700 border">진행중</span>
-                    <span class="px-2 py-1 text-xs rounded-full bg-emerald-50 text-emerald-700 border">50%</span>
-                  </div>
-                  <button class="w-8 h-8 rounded-full bg-emerald-600 text-white">✕</button>
-                </div>
-
-                <div class="mt-5">
-                  <div class="font-semibold mb-2">Description</div>
-                  <div class="rounded-xl border bg-emerald-50/60 p-4 text-sm leading-relaxed text-gray-700">
-                    <ul class="list-disc pl-5 space-y-1">
-                      <li>현재 홈 화면의 콘텐츠 배치 및 초기 진입 속도 이슈 발생.</li>
-                      <li>메뉴 로직 최적화, 인기 섹션 UI 정리, 추천 알고리즘 개선.</li>
-                      <li>모바일 기준 우선 적용 예정.</li>
-                      <li>API 스펙은 백엔드 측과 협의 필요.</li>
-                    </ul>
-                  </div>
-                  <div class="mt-3 flex gap-2 border rounded-xl bg-gray-50 p-3">
-                    <input class="flex-1 bg-transparent outline-none text-sm" placeholder="코멘트를 남겨주세요."/>
-                    <button>📎</button>
-                  </div>
-                </div>
-
-                <!-- 활동 -->
-                <div class="mt-6">
-                  <div class="font-semibold mb-2">활동</div>
-                  <div class="space-y-3 text-sm">
-                    <div class="flex items-start gap-3">
-                      <img class="avatar" src="https://i.pravatar.cc/32?img=24"/>
-                      <div>
-                        <div class="text-gray-700"><b>Alexis Tran</b>님이 당신을 멘션했습니다.</div>
-                        <div class="bg-gray-50 p-2 rounded-lg mt-1">@Alice 화면형 디자인 교체시 성능 향상</div>
-                        <div class="text-xs text-gray-400 mt-1">3시간 전</div>
-                      </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>프로젝트 WBS 타임라인 + 팝업</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .avatar {
+                width: 22px;
+                height: 22px;
+                border-radius: 9999px;
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body class="bg-[#e6f0f8] min-h-screen p-4">
+        <div class="mx-auto max-w-[1200px] border-8 border-[#b7d3ea] rounded-lg overflow-hidden bg-white">
+            <div class="flex">
+                <!-- 사이드바 -->
+                <aside class="w-64 border-r border-gray-200 p-4 bg-white">
+                    <div class="flex items-center gap-2 text-gray-800 font-semibold">
+                        <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-gray-100">Ⅱ</span>
+                        프로젝트 명
                     </div>
-                    <div class="flex items-start gap-3">
-                      <img class="avatar" src="https://i.pravatar.cc/32?img=47"/>
-                      <div>
-                        <div class="text-gray-700"><b>Derek Yu</b>가 마감일을 5월 7일로 변경했습니다.</div>
-                        <div class="text-xs text-gray-400 mt-1">2025/06/23 17:53</div>
-                      </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                      <img class="avatar" src="https://i.pravatar.cc/32?img=5"/>
-                      <div>
-                        <div class="text-gray-700"><b>Alexis Tran</b>님이 당신을 멘션했습니다.</div>
-                        <div class="bg-gray-50 p-2 rounded-lg mt-1">@Alice 확인 부탁드립니다.</div>
-                        <div class="text-xs text-gray-400 mt-1">2025/06/22 14:03</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 우측 패널 -->
-              <aside class="bg-gray-50 border-l p-5">
-                <div class="mb-4">
-                  <h3 class="text-sm font-semibold mb-2">담당자</h3>
-                  <div class="flex items-center gap-2 border rounded-xl bg-white p-3">
-                    <img class="avatar" src="https://i.pravatar.cc/32?img=5"/>
-                    <span class="text-sm">Alice, Bob +6</span>
-                  </div>
-                </div>
-
-                <div class="mb-4">
-                  <h3 class="text-sm font-semibold mb-2">날짜</h3>
-                  <div class="space-y-3">
-                    <div class="border rounded-xl bg-white p-3 text-sm">
-                      <div class="text-gray-500">시작일</div>
-                      <div class="flex gap-2 mt-1">🗓️ <span>2025년 6월 12일</span></div>
-                    </div>
-                    <div class="border rounded-xl bg-white p-3 text-sm">
-                      <div class="text-gray-500">종료일</div>
-                      <div class="flex gap-2 mt-1">🗓️ <span>2025년 6월 20일</span></div>
-                      <!-- 캘린더 -->
-                      <div class="mt-2 p-2 border rounded-lg">
-                        <div class="text-center text-sm text-gray-600 mb-1">2025/06</div>
-                        <div class="grid grid-cols-7 gap-1 text-xs text-center">
-                          <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-                          <span class="col-span-1"></span>
-                          <span class="col-span-1">1</span>
-                          <span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
-                          <span>7</span><span>8</span><span>9</span><span class="bg-emerald-200 rounded">10</span><span>11</span><span>12</span><span>13</span>
-                          <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
-                          <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
-                          <span>28</span><span>29</span><span>30</span>
+                    <nav class="text-sm text-gray-700 mt-4 space-y-1">
+                        <a class="block px-2 py-1 rounded hover:bg-gray-50">알림함</a>
+                        <a class="block px-2 py-1 rounded hover:bg-gray-50">내 프로젝트</a>
+                        <a class="block px-2 py-1 rounded hover:bg-gray-50">회원가입 관리</a>
+                        <a class="block px-2 py-1 rounded hover:bg-gray-50">게시판 관리</a>
+                        <div class="font-medium px-2 py-1">상세페이지 개선</div>
+                        <div class="pl-3 space-y-1">
+                            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 1</a>
+                            <a class="block px-2 py-1 rounded bg-gray-100">하위 프로젝트 2</a>
+                            <a class="block px-2 py-1 rounded hover:bg-gray-50">업무 1</a>
+                            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 3</a>
+                            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 4</a>
+                            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 5</a>
+                            <a class="block px-2 py-1 rounded hover:bg-gray-50">하위 프로젝트 6</a>
                         </div>
-                      </div>
+                    </nav>
+                </aside>
+
+                <!-- 메인 -->
+                <main class="flex-1 p-6 bg-white">
+                    <header class="flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h1 class="text-xl font-semibold">상위 프로젝트 이름</h1>
+                                <span
+                                    class="px-2 py-1 text-xs rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                    >● Active</span
+                                >
+                            </div>
+                            <div class="mt-2 flex items-center gap-2 text-sm text-gray-500">
+                                <div class="flex -space-x-2">
+                                    <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=12" />
+                                    <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=7" />
+                                    <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=3" />
+                                </div>
+                                <span>Alice, Bob, Charlie +12 others</span>
+                            </div>
+                        </div>
+                        <button class="px-4 py-2 rounded-full bg-gray-900 text-white text-sm">WBS</button>
+                    </header>
+
+                    <!-- 팝업 모달 -->
+                    <div class="fixed inset-0 z-50 flex items-start justify-center pt-16">
+                        <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+                        <div class="relative z-10 w-[920px] rounded-2xl shadow-2xl overflow-hidden">
+                            <div class="grid grid-cols-[1fr_260px]">
+                                <!-- 본문 -->
+                                <div class="bg-white p-6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <h2 class="text-lg font-semibold">태스크 명</h2>
+                                            <span class="px-2 py-1 text-xs rounded-full bg-sky-50 text-sky-700 border"
+                                                >진행중</span
+                                            >
+                                            <span
+                                                class="px-2 py-1 text-xs rounded-full bg-emerald-50 text-emerald-700 border"
+                                                >50%</span
+                                            >
+                                        </div>
+                                        <button class="w-8 h-8 rounded-full bg-emerald-600 text-white">✕</button>
+                                    </div>
+
+                                    <div class="mt-5">
+                                        <div class="font-semibold mb-2">Description</div>
+                                        <div
+                                            class="rounded-xl border bg-emerald-50/60 p-4 text-sm leading-relaxed text-gray-700"
+                                        >
+                                            <ul class="list-disc pl-5 space-y-1">
+                                                <li>현재 홈 화면의 콘텐츠 배치 및 초기 진입 속도 이슈 발생.</li>
+                                                <li>메뉴 로직 최적화, 인기 섹션 UI 정리, 추천 알고리즘 개선.</li>
+                                                <li>모바일 기준 우선 적용 예정.</li>
+                                                <li>API 스펙은 백엔드 측과 협의 필요.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mt-3 flex gap-2 border rounded-xl bg-gray-50 p-3">
+                                            <input
+                                                class="flex-1 bg-transparent outline-none text-sm"
+                                                placeholder="코멘트를 남겨주세요."
+                                            />
+                                            <button>📎</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 활동 -->
+                                    <div class="mt-6">
+                                        <div class="font-semibold mb-2">활동</div>
+                                        <div class="space-y-3 text-sm">
+                                            <div class="flex items-start gap-3">
+                                                <img class="avatar" src="https://i.pravatar.cc/32?img=24" />
+                                                <div>
+                                                    <div class="text-gray-700">
+                                                        <b>Alexis Tran</b>님이 당신을 멘션했습니다.
+                                                    </div>
+                                                    <div class="bg-gray-50 p-2 rounded-lg mt-1">
+                                                        @Alice 화면형 디자인 교체시 성능 향상
+                                                    </div>
+                                                    <div class="text-xs text-gray-400 mt-1">3시간 전</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start gap-3">
+                                                <img class="avatar" src="https://i.pravatar.cc/32?img=47" />
+                                                <div>
+                                                    <div class="text-gray-700">
+                                                        <b>Derek Yu</b>가 마감일을 5월 7일로 변경했습니다.
+                                                    </div>
+                                                    <div class="text-xs text-gray-400 mt-1">2025/06/23 17:53</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start gap-3">
+                                                <img class="avatar" src="https://i.pravatar.cc/32?img=5" />
+                                                <div>
+                                                    <div class="text-gray-700">
+                                                        <b>Alexis Tran</b>님이 당신을 멘션했습니다.
+                                                    </div>
+                                                    <div class="bg-gray-50 p-2 rounded-lg mt-1">
+                                                        @Alice 확인 부탁드립니다.
+                                                    </div>
+                                                    <div class="text-xs text-gray-400 mt-1">2025/06/22 14:03</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 우측 패널 -->
+                                <aside class="bg-gray-50 border-l p-5">
+                                    <div class="mb-4">
+                                        <h3 class="text-sm font-semibold mb-2">담당자</h3>
+                                        <div class="flex items-center gap-2 border rounded-xl bg-white p-3">
+                                            <img class="avatar" src="https://i.pravatar.cc/32?img=5" />
+                                            <span class="text-sm">Alice, Bob +6</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h3 class="text-sm font-semibold mb-2">날짜</h3>
+                                        <div class="space-y-3">
+                                            <div class="border rounded-xl bg-white p-3 text-sm">
+                                                <div class="text-gray-500">시작일</div>
+                                                <div class="flex gap-2 mt-1">🗓️ <span>2025년 6월 12일</span></div>
+                                            </div>
+                                            <div class="border rounded-xl bg-white p-3 text-sm">
+                                                <div class="text-gray-500">종료일</div>
+                                                <div class="flex gap-2 mt-1">🗓️ <span>2025년 6월 20일</span></div>
+                                                <!-- 캘린더 -->
+                                                <div class="mt-2 p-2 border rounded-lg">
+                                                    <div class="text-center text-sm text-gray-600 mb-1">2025/06</div>
+                                                    <div class="grid grid-cols-7 gap-1 text-xs text-center">
+                                                        <span>일</span><span>월</span><span>화</span><span>수</span
+                                                        ><span>목</span><span>금</span><span>토</span>
+                                                        <span class="col-span-1"></span>
+                                                        <span class="col-span-1">1</span>
+                                                        <span>2</span><span>3</span><span>4</span><span>5</span
+                                                        ><span>6</span> <span>7</span><span>8</span><span>9</span
+                                                        ><span class="bg-emerald-200 rounded">10</span><span>11</span
+                                                        ><span>12</span><span>13</span> <span>14</span><span>15</span
+                                                        ><span>16</span><span>17</span><span>18</span><span>19</span
+                                                        ><span>20</span> <span>21</span><span>22</span><span>23</span
+                                                        ><span>24</span><span>25</span><span>26</span><span>27</span>
+                                                        <span>28</span><span>29</span><span>30</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="text-sm font-semibold mb-2">첨부파일</h3>
+                                        <div class="border rounded-xl bg-white p-3 text-sm text-gray-500">
+                                            첨부된 파일이 없습니다.
+                                        </div>
+                                    </div>
+                                </aside>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                </main>
+            </div>
+        </div>
+        <!-- 팝업 오버레이 (버전 B: 그린 헤더 & 달력 팝오버) -->
+        <div class="fixed inset-0 z-40 flex items-start justify-center pt-16 pointer-events-none">
+            <!-- 배경 (투명: 기존 모달과 겹치기 위해 클릭 비활성) -->
+            <div class="absolute inset-0"></div>
+
+            <!-- 모달 카드 -->
+            <div class="relative z-10 w-[980px] rounded-2xl shadow-2xl overflow-hidden bg-white pointer-events-auto">
+                <!-- 상단 헤더 바 -->
+                <div class="bg-emerald-600 px-5 py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-3 text-white">
+                        <span class="font-semibold">태스크 명</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">진행중</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">50%</span>
+                    </div>
+                    <button
+                        class="w-8 h-8 rounded-full bg-emerald-700/80 hover:bg-emerald-700 text-white flex items-center justify-center"
+                        aria-label="닫기"
+                    >
+                        ✕
+                    </button>
                 </div>
 
-                <div>
-                  <h3 class="text-sm font-semibold mb-2">첨부파일</h3>
-                  <div class="border rounded-xl bg-white p-3 text-sm text-gray-500">첨부된 파일이 없습니다.</div>
+                <div class="grid grid-cols-[1fr_280px]">
+                    <!-- 본문 컬럼 -->
+                    <div class="p-5">
+                        <!-- Description -->
+                        <div class="rounded-2xl border border-gray-200 p-4">
+                            <div class="font-semibold mb-2">Description</div>
+                            <ul class="list-disc pl-5 text-[13px] leading-6 text-gray-700">
+                                <li>
+                                    현재 홈 화면의 콘텐츠 배치 및 초기 진입 속도 이슈로 인해 사용자 이탈률이 높아지고
+                                    있음.
+                                </li>
+                                <li>
+                                    메뉴 배치 로직 최적화, 인기 섹션 정리, 추천 알고리즘 향상을 프로젝트 타임라인으로
+                                    관리.
+                                </li>
+                                <li>기존 디자인 시스템을 준수하되, 반응형은 모바일 기준으로 우선 적용.</li>
+                                <li>서버 연동 API 스펙은 백엔드와 별도 문서화 필요.</li>
+                            </ul>
+                            <div class="mt-3 flex items-center gap-2">
+                                <input
+                                    class="flex-1 bg-gray-50 border rounded-xl px-3 py-2 text-sm outline-none"
+                                    placeholder="코멘트를 입력하세요."
+                                />
+                                <button class="text-gray-500">✎</button>
+                                <button class="text-gray-500">📎</button>
+                            </div>
+                        </div>
+
+                        <!-- 활동 -->
+                        <div class="mt-4 rounded-2xl border border-gray-200 p-4">
+                            <div class="font-semibold mb-2">활동</div>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <img
+                                        class="avatar ring-2 ring-white"
+                                        src="https://i.pravatar.cc/32?img=24"
+                                        alt=""
+                                    />
+                                    <div class="flex-1 text-sm">
+                                        <div class="text-gray-800">
+                                            <span class="font-medium">Alexis Tran</span>님이 당신을 멘션에 언급했습니다.
+                                        </div>
+                                        <div class="mt-1 text-gray-600 bg-gray-50 rounded-lg p-2">
+                                            @Alice 화면형 디자인 모듈 교체 시 퍼포먼스 추가 향상됩니다.
+                                        </div>
+                                        <div class="mt-1 text-xs text-gray-400">3시간 전</div>
+                                    </div>
+                                    <button class="text-gray-400">⋯</button>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <img
+                                        class="avatar ring-2 ring-white"
+                                        src="https://i.pravatar.cc/32?img=47"
+                                        alt=""
+                                    />
+                                    <div class="flex-1 text-sm">
+                                        <div class="text-gray-800">
+                                            <span class="font-medium">Derek Yu</span>가 마감일을 <b>5월 7일</b>로
+                                            변경했습니다.
+                                        </div>
+                                        <div class="mt-1 text-xs text-gray-400">2025/06/23 17:53</div>
+                                    </div>
+                                    <button class="text-gray-400">⋯</button>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=5" alt="" />
+                                    <div class="flex-1 text-sm">
+                                        <div class="text-gray-800">
+                                            <span class="font-medium">Alexis Tran</span>님이 당신을 멘션에 언급했습니다.
+                                        </div>
+                                        <div class="mt-1 text-gray-600 bg-gray-50 rounded-lg p-2">
+                                            @Alice 확인 부탁드립니다.
+                                        </div>
+                                        <div class="mt-1 text-xs text-gray-400">2025/06/22 14:03</div>
+                                    </div>
+                                    <button class="text-gray-400">⋯</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 우측 정보패널 -->
+                    <aside class="p-5 border-l border-gray-200 relative">
+                        <!-- 담당자 -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-semibold">담당자</h3>
+                                <button class="text-gray-500">＋</button>
+                            </div>
+                            <div class="mt-2 flex items-center gap-2 rounded-xl border bg-white p-3">
+                                <img class="avatar" src="https://i.pravatar.cc/32?img=5" alt="" />
+                                <div class="text-sm text-gray-700">Alice, Bob +6</div>
+                            </div>
+                        </div>
+
+                        <!-- 날짜 (드롭다운 + 캘린더 팝오버) -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-semibold">날짜</h3>
+                                <button class="text-gray-500">▾</button>
+                            </div>
+                            <div class="mt-2 space-y-2 text-sm">
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-gray-100"
+                                        >🗓️</span
+                                    >
+                                    <span>2025년 6월 12일</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-gray-100"
+                                        >🗓️</span
+                                    >
+                                    <span>2025년 6월 21일</span>
+                                </div>
+                            </div>
+
+                            <!-- 달력 팝오버 -->
+                            <div class="mt-3 rounded-xl border bg-white shadow-xl p-3 text-[13px] w-[260px]">
+                                <div class="flex items-center justify-between mb-2">
+                                    <button class="px-2">‹</button>
+                                    <div class="font-medium">2025년 6월</div>
+                                    <button class="px-2">›</button>
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center text-gray-500">
+                                    <div>일</div>
+                                    <div>월</div>
+                                    <div>화</div>
+                                    <div>수</div>
+                                    <div>목</div>
+                                    <div>금</div>
+                                    <div>토</div>
+                                </div>
+                                <div class="mt-1 grid grid-cols-7 gap-1 text-center">
+                                    <div class="text-gray-300"> </div>
+                                    <div class="text-gray-300"> </div>
+                                    <div class="text-gray-300"> </div>
+                                    <div class="text-gray-300"> </div>
+                                    <div class="text-gray-300"> </div>
+                                    <div class="text-gray-300"> </div>
+                                    <div class="text-gray-800">1</div>
+                                    <div>2</div>
+                                    <div>3</div>
+                                    <div>4</div>
+                                    <div>5</div>
+                                    <div>6</div>
+                                    <div>7</div>
+                                    <div>8</div>
+                                    <div>9</div>
+                                    <div>10</div>
+                                    <div>11</div>
+                                    <div>12</div>
+                                    <div class="rounded-full bg-emerald-600 text-white">13</div>
+                                    <div>14</div>
+                                    <div>15</div>
+                                    <div>16</div>
+                                    <div>17</div>
+                                    <div>18</div>
+                                    <div>19</div>
+                                    <div class="rounded-full bg-emerald-100 text-emerald-800">20</div>
+                                    <div>21</div>
+                                    <div>22</div>
+                                    <div>23</div>
+                                    <div>24</div>
+                                    <div>25</div>
+                                    <div>26</div>
+                                    <div>27</div>
+                                    <div>28</div>
+                                    <div>29</div>
+                                    <div>30</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 첨부파일 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-sm font-semibold">첨부파일</h3>
+                                <button class="text-gray-500">＋</button>
+                            </div>
+                            <div class="rounded-xl border bg-white p-3 text-sm text-gray-500">
+                                첨부된 파일이 없습니다.
+                            </div>
+                        </div>
+                    </aside>
                 </div>
-              </aside>
             </div>
-          </div>
         </div>
-      </main>
-    </div>
-  </div>
-<!-- 팝업 오버레이 (버전 B: 그린 헤더 & 달력 팝오버) -->
-<div class="fixed inset-0 z-40 flex items-start justify-center pt-16 pointer-events-none">
-  <!-- 배경 (투명: 기존 모달과 겹치기 위해 클릭 비활성) -->
-  <div class="absolute inset-0"></div>
-
-  <!-- 모달 카드 -->
-  <div class="relative z-10 w-[980px] rounded-2xl shadow-2xl overflow-hidden bg-white pointer-events-auto">
-    <!-- 상단 헤더 바 -->
-    <div class="bg-emerald-600 px-5 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3 text-white">
-        <span class="font-semibold">태스크 명</span>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">진행중</span>
-        <span class="text-xs px-2 py-0.5 rounded-full bg-white/20 border border-white/30">50%</span>
-      </div>
-      <button class="w-8 h-8 rounded-full bg-emerald-700/80 hover:bg-emerald-700 text-white flex items-center justify-center" aria-label="닫기">✕</button>
-    </div>
-
-    <div class="grid grid-cols-[1fr_280px]">
-      <!-- 본문 컬럼 -->
-      <div class="p-5">
-        <!-- Description -->
-        <div class="rounded-2xl border border-gray-200 p-4">
-          <div class="font-semibold mb-2">Description</div>
-          <ul class="list-disc pl-5 text-[13px] leading-6 text-gray-700">
-            <li>현재 홈 화면의 콘텐츠 배치 및 초기 진입 속도 이슈로 인해 사용자 이탈률이 높아지고 있음.</li>
-            <li>메뉴 배치 로직 최적화, 인기 섹션 정리, 추천 알고리즘 향상을 프로젝트 타임라인으로 관리.</li>
-            <li>기존 디자인 시스템을 준수하되, 반응형은 모바일 기준으로 우선 적용.</li>
-            <li>서버 연동 API 스펙은 백엔드와 별도 문서화 필요.</li>
-          </ul>
-          <div class="mt-3 flex items-center gap-2">
-            <input class="flex-1 bg-gray-50 border rounded-xl px-3 py-2 text-sm outline-none" placeholder="코멘트를 입력하세요."/>
-            <button class="text-gray-500">✎</button>
-            <button class="text-gray-500">📎</button>
-          </div>
-        </div>
-
-        <!-- 활동 -->
-        <div class="mt-4 rounded-2xl border border-gray-200 p-4">
-          <div class="font-semibold mb-2">활동</div>
-          <div class="space-y-3">
-            <div class="flex items-start gap-3">
-              <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=24" alt="" />
-              <div class="flex-1 text-sm">
-                <div class="text-gray-800"><span class="font-medium">Alexis Tran</span>님이 당신을 멘션에 언급했습니다.</div>
-                <div class="mt-1 text-gray-600 bg-gray-50 rounded-lg p-2">@Alice 화면형 디자인 모듈 교체 시 퍼포먼스 추가 향상됩니다.</div>
-                <div class="mt-1 text-xs text-gray-400">3시간 전</div>
-              </div>
-              <button class="text-gray-400">⋯</button>
-            </div>
-            <div class="flex items-start gap-3">
-              <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=47" alt="" />
-              <div class="flex-1 text-sm">
-                <div class="text-gray-800"><span class="font-medium">Derek Yu</span>가 마감일을 <b>5월 7일</b>로 변경했습니다.</div>
-                <div class="mt-1 text-xs text-gray-400">2025/06/23 17:53</div>
-              </div>
-              <button class="text-gray-400">⋯</button>
-            </div>
-            <div class="flex items-start gap-3">
-              <img class="avatar ring-2 ring-white" src="https://i.pravatar.cc/32?img=5" alt="" />
-              <div class="flex-1 text-sm">
-                <div class="text-gray-800"><span class="font-medium">Alexis Tran</span>님이 당신을 멘션에 언급했습니다.</div>
-                <div class="mt-1 text-gray-600 bg-gray-50 rounded-lg p-2">@Alice 확인 부탁드립니다.</div>
-                <div class="mt-1 text-xs text-gray-400">2025/06/22 14:03</div>
-              </div>
-              <button class="text-gray-400">⋯</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 우측 정보패널 -->
-      <aside class="p-5 border-l border-gray-200 relative">
-        <!-- 담당자 -->
-        <div class="mb-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-semibold">담당자</h3>
-            <button class="text-gray-500">＋</button>
-          </div>
-          <div class="mt-2 flex items-center gap-2 rounded-xl border bg-white p-3">
-            <img class="avatar" src="https://i.pravatar.cc/32?img=5" alt="" />
-            <div class="text-sm text-gray-700">Alice, Bob +6</div>
-          </div>
-        </div>
-
-        <!-- 날짜 (드롭다운 + 캘린더 팝오버) -->
-        <div class="mb-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-semibold">날짜</h3>
-            <button class="text-gray-500">▾</button>
-          </div>
-          <div class="mt-2 space-y-2 text-sm">
-            <div class="flex items-center gap-2 text-gray-700">
-              <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-gray-100">🗓️</span>
-              <span>2025년 6월 12일</span>
-            </div>
-            <div class="flex items-center gap-2 text-gray-700">
-              <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-gray-100">🗓️</span>
-              <span>2025년 6월 21일</span>
-            </div>
-          </div>
-
-          <!-- 달력 팝오버 -->
-          <div class="mt-3 rounded-xl border bg-white shadow-xl p-3 text-[13px] w-[260px]">
-            <div class="flex items-center justify-between mb-2">
-              <button class="px-2">‹</button>
-              <div class="font-medium">2025년 6월</div>
-              <button class="px-2">›</button>
-            </div>
-            <div class="grid grid-cols-7 gap-1 text-center text-gray-500">
-              <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
-            </div>
-            <div class="mt-1 grid grid-cols-7 gap-1 text-center">
-              <div class="text-gray-300"> </div><div class="text-gray-300"> </div><div class="text-gray-300"> </div><div class="text-gray-300"> </div><div class="text-gray-300"> </div><div class="text-gray-300"> </div><div class="text-gray-800">1</div>
-              <div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>
-              <div>9</div><div>10</div><div>11</div><div>12</div>
-              <div class="rounded-full bg-emerald-600 text-white">13</div>
-              <div>14</div><div>15</div>
-              <div>16</div><div>17</div><div>18</div><div>19</div>
-              <div class="rounded-full bg-emerald-100 text-emerald-800">20</div>
-              <div>21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div>
-              <div>28</div><div>29</div><div>30</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 첨부파일 -->
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-semibold">첨부파일</h3>
-            <button class="text-gray-500">＋</button>
-          </div>
-          <div class="rounded-xl border bg-white p-3 text-sm text-gray-500">첨부된 파일이 없습니다.</div>
-        </div>
-      </aside>
-    </div>
-  </div>
-</div>
-
-</body>
+    </body>
 </html>
