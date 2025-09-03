@@ -1,220 +1,308 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>휴지통</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .card { box-shadow: 0 12px 24px rgba(0,0,0,0.06), 0 6px 12px rgba(0,0,0,0.04); }
-    .avatar { width: 26px; height: 26px; border-radius: 9999px; object-fit: cover; }
-    .row { @apply grid grid-cols-[minmax(0,1fr)_120px_140px_140px_170px_100px] items-center; }
-    .btn-circle { @apply w-8 h-8 rounded-full inline-flex items-center justify-center border; }
-    .tooltip { position:relative; }
-    .tooltip:hover .tooltip-tip { opacity:1; transform:translateY(-4px); }
-    .tooltip-tip { position:absolute; right:0; top:-38px; white-space:nowrap; opacity:0; transition:.15s; padding:4px 8px; font-size:12px; border-radius:6px; background:#111827; color:#fff; }
-  </style>
-</head>
-<body class="bg-[#f3f5f6] min-h-screen">
-  <div class="mx-auto max-w-[1180px] py-8">
-    <div class="bg-white rounded-2xl border overflow-hidden">
-      <div class="flex">
-        <!-- 사이드바 -->
-        <aside class="w-64 border-r p-4 bg-white">
-          <div class="flex items-center gap-2 font-semibold text-gray-800">
-            <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-gray-100">Ⅱ</span>
-            프로젝트 명
-          </div>
-          <nav class="mt-4 text-sm text-gray-700 space-y-1">
-            <a class="block px-3 py-1.5 rounded hover:bg-gray-50">알림함</a>
-            <a class="block px-3 py-1.5 rounded hover:bg-gray-50">내 프로젝트</a>
-            <a class="block px-3 py-1.5 rounded hover:bg-gray-50">계획/일정 관리</a>
-            <div>
-              <div class="px-3 py-1.5 font-medium text-gray-900">상세페이지 개선</div>
-              <div class="pl-3 space-y-1">
-                <a class="block px-3 py-1.5 rounded hover:bg-gray-50">하위 프로젝트 1</a>
-                <a class="block px-3 py-1.5 rounded bg-gray-100">하위 프로젝트 2</a>
-                <a class="block px-3 py-1.5 rounded hover:bg-gray-50">업무 1</a>
-                <a class="block px-3 py-1.5 rounded hover:bg-gray-50">하위 프로젝트 3</a>
-              </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>휴지통</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .card {
+                box-shadow:
+                    0 12px 24px rgba(0, 0, 0, 0.06),
+                    0 6px 12px rgba(0, 0, 0, 0.04);
+            }
+            .avatar {
+                width: 26px;
+                height: 26px;
+                border-radius: 9999px;
+                object-fit: cover;
+            }
+            .row {
+                @apply grid grid-cols-[minmax(0,1fr)_120px_140px_140px_170px_100px] items-center;
+            }
+            .btn-circle {
+                @apply w-8 h-8 rounded-full inline-flex items-center justify-center border;
+            }
+            .tooltip {
+                position: relative;
+            }
+            .tooltip:hover .tooltip-tip {
+                opacity: 1;
+                transform: translateY(-4px);
+            }
+            .tooltip-tip {
+                position: absolute;
+                right: 0;
+                top: -38px;
+                white-space: nowrap;
+                opacity: 0;
+                transition: 0.15s;
+                padding: 4px 8px;
+                font-size: 12px;
+                border-radius: 6px;
+                background: #111827;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body class="bg-[#f3f5f6] min-h-screen">
+        <div class="mx-auto max-w-[1180px] py-8">
+            <div class="bg-white rounded-2xl border overflow-hidden">
+                <div class="flex">
+                    <!-- 사이드바 -->
+                    <aside class="w-64 border-r p-4 bg-white">
+                        <div class="flex items-center gap-2 font-semibold text-gray-800">
+                            <span class="inline-flex w-6 h-6 items-center justify-center rounded bg-gray-100">Ⅱ</span>
+                            프로젝트 명
+                        </div>
+                        <nav class="mt-4 text-sm text-gray-700 space-y-1">
+                            <a class="block px-3 py-1.5 rounded hover:bg-gray-50">알림함</a>
+                            <a class="block px-3 py-1.5 rounded hover:bg-gray-50">내 프로젝트</a>
+                            <a class="block px-3 py-1.5 rounded hover:bg-gray-50">계획/일정 관리</a>
+                            <div>
+                                <div class="px-3 py-1.5 font-medium text-gray-900">상세페이지 개선</div>
+                                <div class="pl-3 space-y-1">
+                                    <a class="block px-3 py-1.5 rounded hover:bg-gray-50">하위 프로젝트 1</a>
+                                    <a class="block px-3 py-1.5 rounded bg-gray-100">하위 프로젝트 2</a>
+                                    <a class="block px-3 py-1.5 rounded hover:bg-gray-50">업무 1</a>
+                                    <a class="block px-3 py-1.5 rounded hover:bg-gray-50">하위 프로젝트 3</a>
+                                </div>
+                            </div>
+                            <a
+                                class="block px-3 py-1.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200"
+                                >휴지통</a
+                            >
+                        </nav>
+                    </aside>
+
+                    <!-- 메인 -->
+                    <main class="flex-1 p-8">
+                        <!-- 헤더 -->
+                        <div class="flex items-center justify-between">
+                            <h1 class="text-xl font-semibold">휴지통</h1>
+                            <div class="relative">
+                                <input
+                                    class="w-72 rounded-full border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500"
+                                    placeholder="프로젝트 이름이나 키워드"
+                                />
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">🔎</span>
+                            </div>
+                        </div>
+
+                        <!-- 테이블 헤더 -->
+                        <div class="mt-6 rounded-xl border bg-white card overflow-hidden">
+                            <div class="px-4 py-3 border-b text-xs text-gray-500 row">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" class="w-4 h-4" /> <span>Task</span>
+                                </div>
+                                <div>Category</div>
+                                <div>Location</div>
+                                <div>Dates</div>
+                                <div>Deleted by</div>
+                                <div class="text-right pr-2">Action</div>
+                            </div>
+
+                            <!-- ROWS -->
+                            <div class="divide-y">
+                                <!-- row helper (functionally repeated) -->
+                                <div class="px-4 py-3 row hover:bg-emerald-50/30">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" class="w-4 h-4" />
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
+                                            <div class="text-xs text-gray-500">#T-23019</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-700">태스크</div>
+                                    <div class="text-sm text-gray-700">누적 랭킹</div>
+                                    <div class="text-sm text-gray-700">2025.06.02</div>
+                                    <div class="flex items-center gap-2">
+                                        <img class="avatar" src="https://i.pravatar.cc/40?img=21" alt="" />
+                                        <div class="text-sm text-gray-700">Alexis Tran</div>
+                                    </div>
+                                    <div class="flex items-center justify-end gap-2 pr-2">
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
+                                                aria-label="복원"
+                                            >
+                                                ↺
+                                            </button>
+                                            <div class="tooltip-tip">Restore</div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100"
+                                                aria-label="삭제"
+                                            >
+                                                ✖
+                                            </button>
+                                            <div class="tooltip-tip">Delete</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 row hover:bg-emerald-50/30">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" class="w-4 h-4" />
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
+                                            <div class="text-xs text-gray-500">#T-23020</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-700">태스크</div>
+                                    <div class="text-sm text-gray-700">누적 랭킹</div>
+                                    <div class="text-sm text-gray-700">2025.06.02</div>
+                                    <div class="flex items-center gap-2">
+                                        <img class="avatar" src="https://i.pravatar.cc/40?img=47" alt="" />
+                                        <div class="text-sm text-gray-700">Alexis Tran</div>
+                                    </div>
+                                    <div class="flex items-center justify-end gap-2 pr-2">
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
+                                                aria-label="복원"
+                                            >
+                                                ↺
+                                            </button>
+                                            <div class="tooltip-tip">Restore</div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100"
+                                                aria-label="삭제"
+                                            >
+                                                ✖
+                                            </button>
+                                            <div class="tooltip-tip">Delete</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 row bg-emerald-50/40 border-l-4 border-l-emerald-400">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" class="w-4 h-4" />
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
+                                            <div class="text-xs text-gray-500">#T-23021</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-700">태스크</div>
+                                    <div class="text-sm text-gray-700">누적 랭킹</div>
+                                    <div class="text-sm text-gray-700">2025.06.02</div>
+                                    <div class="flex items-center gap-2">
+                                        <img class="avatar" src="https://i.pravatar.cc/40?img=5" alt="" />
+                                        <div class="text-sm text-gray-700">Alexis Tran</div>
+                                    </div>
+                                    <div class="flex items-center justify-end gap-2 pr-2">
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
+                                                aria-label="복원"
+                                            >
+                                                ↺
+                                            </button>
+                                            <div class="tooltip-tip">Restore</div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100"
+                                                aria-label="삭제"
+                                            >
+                                                ✖
+                                            </button>
+                                            <div class="tooltip-tip">Delete</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 row hover:bg-emerald-50/30">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" class="w-4 h-4" />
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
+                                            <div class="text-xs text-gray-500">#T-23022</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-700">태스크</div>
+                                    <div class="text-sm text-gray-700">누적 랭킹</div>
+                                    <div class="text-sm text-gray-700">2025.06.02</div>
+                                    <div class="flex items-center gap-2">
+                                        <img class="avatar" src="https://i.pravatar.cc/40?img=8" alt="" />
+                                        <div class="text-sm text-gray-700">Alexis Tran</div>
+                                    </div>
+                                    <div class="flex items-center justify-end gap-2 pr-2">
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
+                                                aria-label="복원"
+                                            >
+                                                ↺
+                                            </button>
+                                            <div class="tooltip-tip">Restore</div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100"
+                                                aria-label="삭제"
+                                            >
+                                                ✖
+                                            </button>
+                                            <div class="tooltip-tip">Delete</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 row hover:bg-emerald-50/30">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" class="w-4 h-4" />
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
+                                            <div class="text-xs text-gray-500">#T-23023</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-700">태스크</div>
+                                    <div class="text-sm text-gray-700">누적 랭킹</div>
+                                    <div class="text-sm text-gray-700">2025.06.02</div>
+                                    <div class="flex items-center gap-2">
+                                        <img class="avatar" src="https://i.pravatar.cc/40?img=12" alt="" />
+                                        <div class="text-sm text-gray-700">Alexis Tran</div>
+                                    </div>
+                                    <div class="flex items-center justify-end gap-2 pr-2">
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
+                                                aria-label="복원"
+                                            >
+                                                ↺
+                                            </button>
+                                            <div class="tooltip-tip">Restore</div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button
+                                                class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100"
+                                                aria-label="삭제"
+                                            >
+                                                ✖
+                                            </button>
+                                            <div class="tooltip-tip">Delete</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 페이징 -->
+                            <div class="flex items-center justify-center gap-4 px-4 py-4 border-t bg-gray-50">
+                                <button class="text-sm text-gray-500 hover:text-gray-800">‹</button>
+                                <button class="w-8 h-8 rounded-full border bg-white text-sm">1</button>
+                                <button class="w-8 h-8 rounded-full border bg-emerald-600 text-white text-sm">2</button>
+                                <button class="w-8 h-8 rounded-full border bg-white text-sm">3</button>
+                                <button class="text-sm text-gray-500 hover:text-gray-800">›</button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
             </div>
-            <a class="block px-3 py-1.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">휴지통</a>
-          </nav>
-        </aside>
-
-        <!-- 메인 -->
-        <main class="flex-1 p-8">
-          <!-- 헤더 -->
-          <div class="flex items-center justify-between">
-            <h1 class="text-xl font-semibold">휴지통</h1>
-            <div class="relative">
-              <input class="w-72 rounded-full border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-emerald-500" placeholder="프로젝트 이름이나 키워드" />
-              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">🔎</span>
-            </div>
-          </div>
-
-          <!-- 테이블 헤더 -->
-          <div class="mt-6 rounded-xl border bg-white card overflow-hidden">
-            <div class="px-4 py-3 border-b text-xs text-gray-500 row">
-              <div class="flex items-center gap-3"><input type="checkbox" class="w-4 h-4"> <span>Task</span></div>
-              <div>Category</div>
-              <div>Location</div>
-              <div>Dates</div>
-              <div>Deleted by</div>
-              <div class="text-right pr-2">Action</div>
-            </div>
-
-            <!-- ROWS -->
-            <div class="divide-y">
-              <!-- row helper (functionally repeated) -->
-              <div class="px-4 py-3 row hover:bg-emerald-50/30">
-                <div class="flex items-center gap-3">
-                  <input type="checkbox" class="w-4 h-4"/>
-                  <div>
-                    <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
-                    <div class="text-xs text-gray-500">#T-23019</div>
-                  </div>
-                </div>
-                <div class="text-sm text-gray-700">태스크</div>
-                <div class="text-sm text-gray-700">누적 랭킹</div>
-                <div class="text-sm text-gray-700">2025.06.02</div>
-                <div class="flex items-center gap-2">
-                  <img class="avatar" src="https://i.pravatar.cc/40?img=21" alt=""/>
-                  <div class="text-sm text-gray-700">Alexis Tran</div>
-                </div>
-                <div class="flex items-center justify-end gap-2 pr-2">
-                  <div class="tooltip">
-                    <button class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100" aria-label="복원">↺</button>
-                    <div class="tooltip-tip">Restore</div>
-                  </div>
-                  <div class="tooltip">
-                    <button class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100" aria-label="삭제">✖</button>
-                    <div class="tooltip-tip">Delete</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="px-4 py-3 row hover:bg-emerald-50/30">
-                <div class="flex items-center gap-3">
-                  <input type="checkbox" class="w-4 h-4"/>
-                  <div>
-                    <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
-                    <div class="text-xs text-gray-500">#T-23020</div>
-                  </div>
-                </div>
-                <div class="text-sm text-gray-700">태스크</div>
-                <div class="text-sm text-gray-700">누적 랭킹</div>
-                <div class="text-sm text-gray-700">2025.06.02</div>
-                <div class="flex items-center gap-2">
-                  <img class="avatar" src="https://i.pravatar.cc/40?img=47" alt=""/>
-                  <div class="text-sm text-gray-700">Alexis Tran</div>
-                </div>
-                <div class="flex items-center justify-end gap-2 pr-2">
-                  <div class="tooltip">
-                    <button class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100" aria-label="복원">↺</button>
-                    <div class="tooltip-tip">Restore</div>
-                  </div>
-                  <div class="tooltip">
-                    <button class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100" aria-label="삭제">✖</button>
-                    <div class="tooltip-tip">Delete</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="px-4 py-3 row bg-emerald-50/40 border-l-4 border-l-emerald-400">
-                <div class="flex items-center gap-3">
-                  <input type="checkbox" class="w-4 h-4"/>
-                  <div>
-                    <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
-                    <div class="text-xs text-gray-500">#T-23021</div>
-                  </div>
-                </div>
-                <div class="text-sm text-gray-700">태스크</div>
-                <div class="text-sm text-gray-700">누적 랭킹</div>
-                <div class="text-sm text-gray-700">2025.06.02</div>
-                <div class="flex items-center gap-2">
-                  <img class="avatar" src="https://i.pravatar.cc/40?img=5" alt=""/>
-                  <div class="text-sm text-gray-700">Alexis Tran</div>
-                </div>
-                <div class="flex items-center justify-end gap-2 pr-2">
-                  <div class="tooltip">
-                    <button class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100" aria-label="복원">↺</button>
-                    <div class="tooltip-tip">Restore</div>
-                  </div>
-                  <div class="tooltip">
-                    <button class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100" aria-label="삭제">✖</button>
-                    <div class="tooltip-tip">Delete</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="px-4 py-3 row hover:bg-emerald-50/30">
-                <div class="flex items-center gap-3">
-                  <input type="checkbox" class="w-4 h-4"/>
-                  <div>
-                    <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
-                    <div class="text-xs text-gray-500">#T-23022</div>
-                  </div>
-                </div>
-                <div class="text-sm text-gray-700">태스크</div>
-                <div class="text-sm text-gray-700">누적 랭킹</div>
-                <div class="text-sm text-gray-700">2025.06.02</div>
-                <div class="flex items-center gap-2">
-                  <img class="avatar" src="https://i.pravatar.cc/40?img=8" alt=""/>
-                  <div class="text-sm text-gray-700">Alexis Tran</div>
-                </div>
-                <div class="flex items-center justify-end gap-2 pr-2">
-                  <div class="tooltip">
-                    <button class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100" aria-label="복원">↺</button>
-                    <div class="tooltip-tip">Restore</div>
-                  </div>
-                  <div class="tooltip">
-                    <button class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100" aria-label="삭제">✖</button>
-                    <div class="tooltip-tip">Delete</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="px-4 py-3 row hover:bg-emerald-50/30">
-                <div class="flex items-center gap-3">
-                  <input type="checkbox" class="w-4 h-4"/>
-                  <div>
-                    <div class="text-sm font-medium text-gray-800">툴 작업 개선 – 디자인</div>
-                    <div class="text-xs text-gray-500">#T-23023</div>
-                  </div>
-                </div>
-                <div class="text-sm text-gray-700">태스크</div>
-                <div class="text-sm text-gray-700">누적 랭킹</div>
-                <div class="text-sm text-gray-700">2025.06.02</div>
-                <div class="flex items-center gap-2">
-                  <img class="avatar" src="https://i.pravatar.cc/40?img=12" alt=""/>
-                  <div class="text-sm text-gray-700">Alexis Tran</div>
-                </div>
-                <div class="flex items-center justify-end gap-2 pr-2">
-                  <div class="tooltip">
-                    <button class="btn-circle border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100" aria-label="복원">↺</button>
-                    <div class="tooltip-tip">Restore</div>
-                  </div>
-                  <div class="tooltip">
-                    <button class="btn-circle border-red-300 text-red-600 bg-red-50 hover:bg-red-100" aria-label="삭제">✖</button>
-                    <div class="tooltip-tip">Delete</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 페이징 -->
-            <div class="flex items-center justify-center gap-4 px-4 py-4 border-t bg-gray-50">
-              <button class="text-sm text-gray-500 hover:text-gray-800">‹</button>
-              <button class="w-8 h-8 rounded-full border bg-white text-sm">1</button>
-              <button class="w-8 h-8 rounded-full border bg-emerald-600 text-white text-sm">2</button>
-              <button class="w-8 h-8 rounded-full border bg-white text-sm">3</button>
-              <button class="text-sm text-gray-500 hover:text-gray-800">›</button>
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
-  </div>
-</body>
+        </div>
+    </body>
 </html>
