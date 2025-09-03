@@ -1,7 +1,8 @@
-import WorkspaceContainer from "./container";
+'use client';
 
-export default function workspace() {
-    return (
-        <WorkspaceContainer />
-    )
+import { useEffect } from 'react';
+import WorkspaceContainer from './_container';
+
+export default function WorkspacePage() {
+    return <WorkspaceContainer />;
 }

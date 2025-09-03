@@ -1,237 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>태스크 리스트 페이지 (탭 + 날짜 그룹)</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .card { box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.04); }
-    .badge { @apply text-xs px-2 py-0.5 rounded-full border; }
-  </style>
-</head>
-<body class="bg-[#f3f5f6]">
-  <div class="mx-auto max-w-[1280px] p-6">
-    <div class="bg-white rounded-2xl border overflow-hidden">
-      <div class="flex">
-        <!-- 사이드바 -->
-        <aside class="w-64 border-r p-4 bg-white">
-          <div class="flex items-center gap-2 font-semibold text-gray-800">
-            <span class="inline-flex w-7 h-7 items-center justify-center rounded-full bg-gray-100">Ⅱ</span>
-            프로젝트 명
-          </div>
-          <nav class="mt-4 text-[13px] text-gray-700 space-y-1">
-            <a class="block px-3 py-2 rounded hover:bg-gray-50">알림함</a>
-            <a class="block px-3 py-2 rounded hover:bg-gray-50">내 프로젝트</a>
-            <a class="block px-3 py-2 rounded hover:bg-gray-50">체험기반 플러그</a>
-            <a class="block px-3 py-2 rounded hover:bg-gray-50">게시판 관리</a>
-            <div class="pt-2">
-              <div class="px-3 py-2 text-gray-900 font-medium">상세페이지 개선</div>
-              <div class="pl-3 space-y-1">
-                <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 1</a>
-                <a class="block px-3 py-2 rounded bg-gray-100">하위 프로젝트 2</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-50">업무 1</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 3</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 4</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 5</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 6</a>
-              </div>
-            </div>
-            <a class="block px-3 py-2 rounded hover:bg-gray-50">휴지통</a>
-            <div class="pt-6 text-gray-400">워크스페이스 초대</div>
-            <div class="text-gray-400">워크스페이스 생성</div>
-          </nav>
-        </aside>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>태스크 리스트 페이지 (탭 + 날짜 그룹)</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .card {
+                box-shadow:
+                    0 10px 20px rgba(0, 0, 0, 0.05),
+                    0 6px 6px rgba(0, 0, 0, 0.04);
+            }
+            .badge {
+                @apply text-xs px-2 py-0.5 rounded-full border;
+            }
+        </style>
+    </head>
+    <body class="bg-[#f3f5f6]">
+        <div class="mx-auto max-w-[1280px] p-6">
+            <div class="bg-white rounded-2xl border overflow-hidden">
+                <div class="flex">
+                    <!-- 사이드바 -->
+                    <aside class="w-64 border-r p-4 bg-white">
+                        <div class="flex items-center gap-2 font-semibold text-gray-800">
+                            <span class="inline-flex w-7 h-7 items-center justify-center rounded-full bg-gray-100"
+                                >Ⅱ</span
+                            >
+                            프로젝트 명
+                        </div>
+                        <nav class="mt-4 text-[13px] text-gray-700 space-y-1">
+                            <a class="block px-3 py-2 rounded hover:bg-gray-50">알림함</a>
+                            <a class="block px-3 py-2 rounded hover:bg-gray-50">내 프로젝트</a>
+                            <a class="block px-3 py-2 rounded hover:bg-gray-50">체험기반 플러그</a>
+                            <a class="block px-3 py-2 rounded hover:bg-gray-50">게시판 관리</a>
+                            <div class="pt-2">
+                                <div class="px-3 py-2 text-gray-900 font-medium">상세페이지 개선</div>
+                                <div class="pl-3 space-y-1">
+                                    <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 1</a>
+                                    <a class="block px-3 py-2 rounded bg-gray-100">하위 프로젝트 2</a>
+                                    <a class="block px-3 py-2 rounded hover:bg-gray-50">업무 1</a>
+                                    <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 3</a>
+                                    <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 4</a>
+                                    <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 5</a>
+                                    <a class="block px-3 py-2 rounded hover:bg-gray-50">하위 프로젝트 6</a>
+                                </div>
+                            </div>
+                            <a class="block px-3 py-2 rounded hover:bg-gray-50">휴지통</a>
+                            <div class="pt-6 text-gray-400">워크스페이스 초대</div>
+                            <div class="text-gray-400">워크스페이스 생성</div>
+                        </nav>
+                    </aside>
 
-        <!-- 메인 -->
-        <main class="flex-1 p-6">
-          <!-- 헤더 -->
-          <div class="flex items-center justify-between">
-            <div>
-              <h1 class="text-xl font-semibold">상위 프로젝트 이름</h1>
-            </div>
-            <div class="flex gap-2">
-              <button class="px-3 py-1.5 text-sm rounded-lg border">일괄 처리</button>
-              <button class="px-3 py-1.5 text-sm rounded-lg border">새로고침</button>
-            </div>
-          </div>
+                    <!-- 메인 -->
+                    <main class="flex-1 p-6">
+                        <!-- 헤더 -->
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-xl font-semibold">상위 프로젝트 이름</h1>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1.5 text-sm rounded-lg border">일괄 처리</button>
+                                <button class="px-3 py-1.5 text-sm rounded-lg border">새로고침</button>
+                            </div>
+                        </div>
 
-          <!-- 탭 바 -->
-          <div class="mt-5 border-b">
-            <div class="flex items-center gap-6 text-sm">
-              <button class="relative pb-3 text-emerald-700 font-medium">전체<span class="absolute left-0 -bottom-[1px] w-full h-0.5 bg-emerald-600"></span></button>
-              <button class="pb-3 text-gray-500 hover:text-gray-800">나만의 할일함</button>
-              <button class="pb-3 text-gray-500 hover:text-gray-800">진행</button>
-              <button class="pb-3 text-gray-500 hover:text-gray-800">완료함</button>
-            </div>
-          </div>
+                        <!-- 탭 바 -->
+                        <div class="mt-5 border-b">
+                            <div class="flex items-center gap-6 text-sm">
+                                <button class="relative pb-3 text-emerald-700 font-medium">
+                                    전체<span class="absolute left-0 -bottom-[1px] w-full h-0.5 bg-emerald-600"></span>
+                                </button>
+                                <button class="pb-3 text-gray-500 hover:text-gray-800">나만의 할일함</button>
+                                <button class="pb-3 text-gray-500 hover:text-gray-800">진행</button>
+                                <button class="pb-3 text-gray-500 hover:text-gray-800">완료함</button>
+                            </div>
+                        </div>
 
-          <div class="mt-4 text-[13px] text-gray-500 flex items-center gap-2">
-            <label class="inline-flex items-center gap-2"><input type="checkbox" class="w-4 h-4"> 전체선택</label>
-            <span class="ml-auto inline-flex items-center gap-2 text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">진행 90%</span>
-            <button class="ml-2 text-xs bg-gray-900 text-white px-2 py-1 rounded">스냅</button>
-          </div>
+                        <div class="mt-4 text-[13px] text-gray-500 flex items-center gap-2">
+                            <label class="inline-flex items-center gap-2"
+                                ><input type="checkbox" class="w-4 h-4" /> 전체선택</label
+                            >
+                            <span
+                                class="ml-auto inline-flex items-center gap-2 text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full"
+                                >진행 90%</span
+                            >
+                            <button class="ml-2 text-xs bg-gray-900 text-white px-2 py-1 rounded">스냅</button>
+                        </div>
 
-          <!-- 2 컬럼 레이아웃 -->
-          <div class="mt-6 grid grid-cols-12 gap-6">
-            <!-- 왼쪽: 메인 리스트 -->
-            <section class="col-span-8">
-              <!-- Day: Today -->
-              <h3 class="text-gray-500 text-sm mb-3">Today</h3>
-              <div class="space-y-3">
-                <!-- 카드 컴포넌트 -->
-                <article class="rounded-xl border p-4 bg-white">
-                  <header class="flex items-start justify-between">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" class="mt-0.5 w-4 h-4"/>
-                      <span class="text-sm font-medium">Task 01</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-gray-100 text-gray-700">진행</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200">상</span>
-                    </div>
-                    <div class="text-xs text-gray-400">14:21 <span class="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-red-400 align-middle"></span></div>
-                  </header>
-                  <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
-                    <li>이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리, 추천 알고리즘 조율 타임라인을 프로젝트에서 제어하는 방향으로 진행.</li>
-                  </ul>
-                </article>
+                        <!-- 2 컬럼 레이아웃 -->
+                        <div class="mt-6 grid grid-cols-12 gap-6">
+                            <!-- 왼쪽: 메인 리스트 -->
+                            <section class="col-span-8">
+                                <!-- Day: Today -->
+                                <h3 class="text-gray-500 text-sm mb-3">Today</h3>
+                                <div class="space-y-3">
+                                    <!-- 카드 컴포넌트 -->
+                                    <article class="rounded-xl border p-4 bg-white">
+                                        <header class="flex items-start justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4" />
+                                                <span class="text-sm font-medium">Task 01</span>
+                                                <span
+                                                    class="text-xs px-2 py-0.5 rounded-full border bg-gray-100 text-gray-700"
+                                                    >진행</span
+                                                >
+                                                <span
+                                                    class="text-xs px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200"
+                                                    >상</span
+                                                >
+                                            </div>
+                                            <div class="text-xs text-gray-400">
+                                                14:21
+                                                <span
+                                                    class="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-red-400 align-middle"
+                                                ></span>
+                                            </div>
+                                        </header>
+                                        <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
+                                            <li>
+                                                이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리,
+                                                추천 알고리즘 조율 타임라인을 프로젝트에서 제어하는 방향으로 진행.
+                                            </li>
+                                        </ul>
+                                    </article>
 
-                <article class="rounded-xl border p-4 bg-white">
-                  <header class="flex items-start justify-between">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" class="mt-0.5 w-4 h-4"/>
-                      <span class="text-sm font-medium">Task 02</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-sky-50 text-sky-700 border-sky-200">대기 중</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border">중</span>
-                    </div>
-                    <div class="text-xs text-gray-400">14:21</div>
-                  </header>
-                  <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
-                    <li>이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리, 추천 알고리즘 조율 타임라인을 프로젝트에서 제어.</li>
-                    <li>부처 간결화를 통한 타입수 관리에서 하향식 방향으로 진행.</li>
-                  </ul>
-                </article>
+                                    <article class="rounded-xl border p-4 bg-white">
+                                        <header class="flex items-start justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4" />
+                                                <span class="text-sm font-medium">Task 02</span>
+                                                <span
+                                                    class="text-xs px-2 py-0.5 rounded-full border bg-sky-50 text-sky-700 border-sky-200"
+                                                    >대기 중</span
+                                                >
+                                                <span class="text-xs px-2 py-0.5 rounded-full border">중</span>
+                                            </div>
+                                            <div class="text-xs text-gray-400">14:21</div>
+                                        </header>
+                                        <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
+                                            <li>
+                                                이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리,
+                                                추천 알고리즘 조율 타임라인을 프로젝트에서 제어.
+                                            </li>
+                                            <li>부처 간결화를 통한 타입수 관리에서 하향식 방향으로 진행.</li>
+                                        </ul>
+                                    </article>
 
-                <article class="rounded-xl border p-4 bg-emerald-50">
-                  <header class="flex items-start justify-between">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" class="mt-0.5 w-4 h-4"/>
-                      <span class="text-sm font-medium">Task 03</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-emerald-100 text-emerald-700 border-emerald-200">완료</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border">상</span>
-                    </div>
-                    <div class="text-xs text-gray-400">14:21</div>
-                  </header>
-                  <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
-                    <li>이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리, 추천 알고리즘 조율 타임라인을 프로젝트에서 제어하는 방향으로 진행.</li>
-                  </ul>
-                </article>
-              </div>
+                                    <article class="rounded-xl border p-4 bg-emerald-50">
+                                        <header class="flex items-start justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4" />
+                                                <span class="text-sm font-medium">Task 03</span>
+                                                <span
+                                                    class="text-xs px-2 py-0.5 rounded-full border bg-emerald-100 text-emerald-700 border-emerald-200"
+                                                    >완료</span
+                                                >
+                                                <span class="text-xs px-2 py-0.5 rounded-full border">상</span>
+                                            </div>
+                                            <div class="text-xs text-gray-400">14:21</div>
+                                        </header>
+                                        <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
+                                            <li>
+                                                이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리,
+                                                추천 알고리즘 조율 타임라인을 프로젝트에서 제어하는 방향으로 진행.
+                                            </li>
+                                        </ul>
+                                    </article>
+                                </div>
 
-              <!-- Day: Yesterday -->
-              <h3 class="text-gray-500 text-sm mt-8 mb-3">Yesterday</h3>
-              <div class="space-y-3">
-                <article class="rounded-xl border p-4 bg-white">
-                  <header class="flex items-start justify-between">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" class="mt-0.5 w-4 h-4"/>
-                      <span class="text-sm font-medium">Task 01</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-gray-100">진행</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border">상</span>
-                    </div>
-                    <div class="text-xs text-gray-400">14:21</div>
-                  </header>
-                  <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
-                    <li>이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리, 추천 알고리즘 조율 타임라인.</li>
-                  </ul>
-                </article>
+                                <!-- Day: Yesterday -->
+                                <h3 class="text-gray-500 text-sm mt-8 mb-3">Yesterday</h3>
+                                <div class="space-y-3">
+                                    <article class="rounded-xl border p-4 bg-white">
+                                        <header class="flex items-start justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4" />
+                                                <span class="text-sm font-medium">Task 01</span>
+                                                <span class="text-xs px-2 py-0.5 rounded-full border bg-gray-100"
+                                                    >진행</span
+                                                >
+                                                <span class="text-xs px-2 py-0.5 rounded-full border">상</span>
+                                            </div>
+                                            <div class="text-xs text-gray-400">14:21</div>
+                                        </header>
+                                        <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
+                                            <li>
+                                                이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리,
+                                                추천 알고리즘 조율 타임라인.
+                                            </li>
+                                        </ul>
+                                    </article>
 
-                <article class="rounded-xl border p-4 bg-white">
-                  <header class="flex items-start justify-between">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" class="mt-0.5 w-4 h-4"/>
-                      <span class="text-sm font-medium">Task 02</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-sky-50 text-sky-700 border-sky-200">대기 중</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border">중</span>
-                    </div>
-                    <div class="text-xs text-gray-400">14:21</div>
-                  </header>
-                  <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
-                    <li>이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리, 추천 알고리즘 조율 타임라인.</li>
-                  </ul>
-                </article>
-              </div>
+                                    <article class="rounded-xl border p-4 bg-white">
+                                        <header class="flex items-start justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4" />
+                                                <span class="text-sm font-medium">Task 02</span>
+                                                <span
+                                                    class="text-xs px-2 py-0.5 rounded-full border bg-sky-50 text-sky-700 border-sky-200"
+                                                    >대기 중</span
+                                                >
+                                                <span class="text-xs px-2 py-0.5 rounded-full border">중</span>
+                                            </div>
+                                            <div class="text-xs text-gray-400">14:21</div>
+                                        </header>
+                                        <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
+                                            <li>
+                                                이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리,
+                                                추천 알고리즘 조율 타임라인.
+                                            </li>
+                                        </ul>
+                                    </article>
+                                </div>
 
-              <!-- Day: 25.06.29 -->
-              <h3 class="text-gray-500 text-sm mt-8 mb-3">25.06.29</h3>
-              <div class="space-y-3">
-                <article class="rounded-xl border p-4 bg-white">
-                  <header class="flex items-start justify-between">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" class="mt-0.5 w-4 h-4"/>
-                      <span class="text-sm font-medium">Task 01</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-gray-100">진행</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border">상</span>
-                    </div>
-                    <div class="text-xs text-gray-400">14:21</div>
-                  </header>
-                  <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
-                    <li>이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리, 추천 알고리즘 조율 타임라인.</li>
-                  </ul>
-                </article>
+                                <!-- Day: 25.06.29 -->
+                                <h3 class="text-gray-500 text-sm mt-8 mb-3">25.06.29</h3>
+                                <div class="space-y-3">
+                                    <article class="rounded-xl border p-4 bg-white">
+                                        <header class="flex items-start justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4" />
+                                                <span class="text-sm font-medium">Task 01</span>
+                                                <span class="text-xs px-2 py-0.5 rounded-full border bg-gray-100"
+                                                    >진행</span
+                                                >
+                                                <span class="text-xs px-2 py-0.5 rounded-full border">상</span>
+                                            </div>
+                                            <div class="text-xs text-gray-400">14:21</div>
+                                        </header>
+                                        <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
+                                            <li>
+                                                이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리,
+                                                추천 알고리즘 조율 타임라인.
+                                            </li>
+                                        </ul>
+                                    </article>
 
-                <article class="rounded-xl border p-4 bg-white">
-                  <header class="flex items-start justify-between">
-                    <div class="flex items-center gap-2">
-                      <input type="checkbox" class="mt-0.5 w-4 h-4"/>
-                      <span class="text-sm font-medium">Task 02</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border bg-sky-50 text-sky-700 border-sky-200">대기 중</span>
-                      <span class="text-xs px-2 py-0.5 rounded-full border">중</span>
-                    </div>
-                    <div class="text-xs text-gray-400">14:21</div>
-                  </header>
-                  <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
-                    <li>이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리, 추천 알고리즘 조율 타임라인.</li>
-                  </ul>
-                </article>
-              </div>
-            </section>
+                                    <article class="rounded-xl border p-4 bg-white">
+                                        <header class="flex items-start justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <input type="checkbox" class="mt-0.5 w-4 h-4" />
+                                                <span class="text-sm font-medium">Task 02</span>
+                                                <span
+                                                    class="text-xs px-2 py-0.5 rounded-full border bg-sky-50 text-sky-700 border-sky-200"
+                                                    >대기 중</span
+                                                >
+                                                <span class="text-xs px-2 py-0.5 rounded-full border">중</span>
+                                            </div>
+                                            <div class="text-xs text-gray-400">14:21</div>
+                                        </header>
+                                        <ul class="mt-2 pl-5 list-disc text-[13px] leading-6 text-gray-700">
+                                            <li>
+                                                이번 개선에서는 테마 배치 로직 최적화, 실시간 인기 콘텐츠 섹션 UI 정리,
+                                                추천 알고리즘 조율 타임라인.
+                                            </li>
+                                        </ul>
+                                    </article>
+                                </div>
+                            </section>
 
-            <!-- 오른쪽: 카드 미리보기 컬럼 -->
-            <aside class="col-span-4">
-              <div class="space-y-4">
-                <!-- Today stack -->
-                <div class="rounded-2xl bg-[#eef1f2] p-4">
-                  <div class="text-sm text-gray-600 mb-3">Today</div>
-                  <div class="space-y-3">
-                    <div class="rounded-xl border p-3 bg-white"><div class="flex justify-between text-xs text-gray-400"><span>Task 01</span><span>14:21<span class='ml-2 inline-block w-1.5 h-1.5 rounded-full bg-red-400 align-middle'></span></span></div><p class="mt-1 text-[12px] text-gray-600 leading-5">…프로젝트에서 제어하는 방향으로 진행.</p></div>
-                    <div class="rounded-xl border p-3 bg-white"><div class="flex justify-between text-xs text-gray-400"><span>Task 02</span><span>14:21</span></div><p class="mt-1 text-[12px] text-gray-600 leading-5">…추천 알고리즘 조율 타임라인.</p></div>
-                    <div class="rounded-xl border p-3 bg-emerald-50"><div class="flex justify-between text-xs text-gray-400"><span>Task 03</span><span>14:21</span></div><p class="mt-1 text-[12px] text-gray-600 leading-5">…프로젝트에서 제어하는 방향으로 진행.</p></div>
-                  </div>
+                            <!-- 오른쪽: 카드 미리보기 컬럼 -->
+                            <aside class="col-span-4">
+                                <div class="space-y-4">
+                                    <!-- Today stack -->
+                                    <div class="rounded-2xl bg-[#eef1f2] p-4">
+                                        <div class="text-sm text-gray-600 mb-3">Today</div>
+                                        <div class="space-y-3">
+                                            <div class="rounded-xl border p-3 bg-white">
+                                                <div class="flex justify-between text-xs text-gray-400">
+                                                    <span>Task 01</span
+                                                    ><span
+                                                        >14:21<span
+                                                            class="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-red-400 align-middle"
+                                                        ></span
+                                                    ></span>
+                                                </div>
+                                                <p class="mt-1 text-[12px] text-gray-600 leading-5">
+                                                    …프로젝트에서 제어하는 방향으로 진행.
+                                                </p>
+                                            </div>
+                                            <div class="rounded-xl border p-3 bg-white">
+                                                <div class="flex justify-between text-xs text-gray-400">
+                                                    <span>Task 02</span><span>14:21</span>
+                                                </div>
+                                                <p class="mt-1 text-[12px] text-gray-600 leading-5">
+                                                    …추천 알고리즘 조율 타임라인.
+                                                </p>
+                                            </div>
+                                            <div class="rounded-xl border p-3 bg-emerald-50">
+                                                <div class="flex justify-between text-xs text-gray-400">
+                                                    <span>Task 03</span><span>14:21</span>
+                                                </div>
+                                                <p class="mt-1 text-[12px] text-gray-600 leading-5">
+                                                    …프로젝트에서 제어하는 방향으로 진행.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Yesterday stack -->
+                                    <div class="rounded-2xl bg-[#eef1f2] p-4">
+                                        <div class="text-sm text-gray-600 mb-3">Yesterday</div>
+                                        <div class="space-y-3">
+                                            <div class="rounded-xl border p-3 bg-white">
+                                                <div class="flex justify-between text-xs text-gray-400">
+                                                    <span>Task 01</span><span>14:21</span>
+                                                </div>
+                                                <p class="mt-1 text-[12px] text-gray-600 leading-5">
+                                                    …추천 알고리즘 조율 타임라인.
+                                                </p>
+                                            </div>
+                                            <div class="rounded-xl border p-3 bg-white">
+                                                <div class="flex justify-between text-xs text-gray-400">
+                                                    <span>Task 02</span><span>14:21</span>
+                                                </div>
+                                                <p class="mt-1 text-[12px] text-gray-600 leading-5">
+                                                    …프로젝트에서 제어하는 방향으로 진행.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 25.06.29 stack -->
+                                    <div class="rounded-2xl bg-[#eef1f2] p-4">
+                                        <div class="text-sm text-gray-600 mb-3">25.06.29</div>
+                                        <div class="space-y-3">
+                                            <div class="rounded-xl border p-3 bg-white">
+                                                <div class="flex justify-between text-xs text-gray-400">
+                                                    <span>Task 01</span><span>14:21</span>
+                                                </div>
+                                                <p class="mt-1 text-[12px] text-gray-600 leading-5">
+                                                    …추천 알고리즘 조율 타임라인.
+                                                </p>
+                                            </div>
+                                            <div class="rounded-xl border p-3 bg-white">
+                                                <div class="flex justify-between text-xs text-gray-400">
+                                                    <span>Task 02</span><span>14:21</span>
+                                                </div>
+                                                <p class="mt-1 text-[12px] text-gray-600 leading-5">
+                                                    …프로젝트에서 제어하는 방향으로 진행.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    </main>
                 </div>
-
-                <!-- Yesterday stack -->
-                <div class="rounded-2xl bg-[#eef1f2] p-4">
-                  <div class="text-sm text-gray-600 mb-3">Yesterday</div>
-                  <div class="space-y-3">
-                    <div class="rounded-xl border p-3 bg-white"><div class="flex justify-between text-xs text-gray-400"><span>Task 01</span><span>14:21</span></div><p class="mt-1 text-[12px] text-gray-600 leading-5">…추천 알고리즘 조율 타임라인.</p></div>
-                    <div class="rounded-xl border p-3 bg-white"><div class="flex justify-between text-xs text-gray-400"><span>Task 02</span><span>14:21</span></div><p class="mt-1 text-[12px] text-gray-600 leading-5">…프로젝트에서 제어하는 방향으로 진행.</p></div>
-                  </div>
-                </div>
-
-                <!-- 25.06.29 stack -->
-                <div class="rounded-2xl bg-[#eef1f2] p-4">
-                  <div class="text-sm text-gray-600 mb-3">25.06.29</div>
-                  <div class="space-y-3">
-                    <div class="rounded-xl border p-3 bg-white"><div class="flex justify-between text-xs text-gray-400"><span>Task 01</span><span>14:21</span></div><p class="mt-1 text-[12px] text-gray-600 leading-5">…추천 알고리즘 조율 타임라인.</p></div>
-                    <div class="rounded-xl border p-3 bg-white"><div class="flex justify-between text-xs text-gray-400"><span>Task 02</span><span>14:21</span></div><p class="mt-1 text-[12px] text-gray-600 leading-5">…프로젝트에서 제어하는 방향으로 진행.</p></div>
-                  </div>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </main>
-      </div>
-    </div>
-  </div>
-</body>
+            </div>
+        </div>
+    </body>
 </html>
