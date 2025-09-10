@@ -3,7 +3,12 @@
 
 import { useMemo, useState } from 'react';
 
-export default function PasswordPage({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
+interface PasswordStepProps {
+    onNext: () => void;
+    onBack?: () => void;
+}
+
+export default function PasswordStep({ onNext, onBack }: PasswordStepProps) {
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [showPw, setShowPw] = useState(false);
