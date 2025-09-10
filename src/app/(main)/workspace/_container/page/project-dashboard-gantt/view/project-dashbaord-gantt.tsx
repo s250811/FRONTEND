@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import 'gantt-task-react/dist/index.css';
 import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import type { GanttProps } from 'gantt-task-react';
@@ -28,7 +28,8 @@ type Overlay = {
 };
 
 export default function GanttChart() {
-    const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.Day);
+    // Set a default view mode
+    const [viewMode] = useState<ViewMode>(ViewMode.Day);
     const wrapRef = useRef<HTMLDivElement>(null);
     const [overlays, setOverlays] = useState<Overlay[]>([]);
 
@@ -121,15 +122,20 @@ export default function GanttChart() {
         ];
     }, []);
 
-    /** 막대 위치를 읽어 오버레이 좌표/스타일 계산 */
-    useEffect(() => {
+    // Define the type for the updateOverlays function
+    type UpdateOverlaysFunction = () => void;
+
+    // Use a ref to store the updateOverlays function to avoid circular dependency
+    const updateOverlaysRef = useRef<UpdateOverlaysFunction>(() => {});
+
+    // Define the updateOverlays function
+    const updateOverlays = useCallback<UpdateOverlaysFunction>(() => {
         const host = wrapRef.current;
         if (!host) return;
 
-        const refresh = () => {
+        const refresh = (): void => {
             const svg = host.querySelector<SVGSVGElement>('svg');
             if (!svg) return;
-            const barGroups = Array.from(svg.querySelectorAll<SVGGElement>('g.barWrapper, g > .bar') as any);
             // 위 선택자가 브라우저/버전에 따라 다를 수 있어 fallback: 모든 rect.bar
             const rects = Array.from(svg.querySelectorAll<SVGRectElement>('rect.bar'));
 
@@ -181,7 +187,21 @@ export default function GanttChart() {
             if (timeline) timeline.removeEventListener('scroll', refresh);
             window.removeEventListener('resize', refresh);
         };
-    }, [tasks, viewMode]);
+    }, [tasks, wrapRef, setOverlays]);
+
+    // Store the updateOverlays function in the ref
+    useEffect(() => {
+        updateOverlaysRef.current = updateOverlays;
+    }, [updateOverlays]);
+
+    // Call the updateOverlays function using the ref to avoid circular dependency
+    useEffect(() => {
+        const update = () => updateOverlaysRef.current();
+        update();
+        return () => {
+            // Cleanup function
+        };
+    }, [updateOverlaysRef]);
 
     return (
         <div className="w-full">
@@ -190,7 +210,7 @@ export default function GanttChart() {
                 {/* 실제 간트 */}
                 <Gantt
                     tasks={tasks}
-                    viewMode={ViewMode.Day}
+                    viewMode={viewMode}
                     listCellWidth="220px"
                     columnWidth={viewMode === ViewMode.Month ? 200 : viewMode === ViewMode.Week ? 60 : 40}
                     barCornerRadius={14}
@@ -230,17 +250,17 @@ export default function GanttChart() {
                                 />
                                 {/* 왼쪽 아바타(막대 안쪽) */}
                                 {avatar && (
-                                    <img
-                                        src={avatar}
-                                        alt=""
+                                    <div
                                         style={{
                                             position: 'absolute',
                                             left: pillLeft + 8,
                                             top: pillTop + 4,
                                             width: 20,
                                             height: 20,
-                                            borderRadius: 9999,
-                                            objectFit: 'cover',
+                                            borderRadius: '9999px',
+                                            backgroundImage: `url(${avatar})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
                                             boxShadow: '0 0 0 2px #fff',
                                         }}
                                     />
@@ -327,47 +347,65 @@ function TodayDashedLine({
 }) {
     const [style, setStyle] = useState<React.CSSProperties | null>(null);
 
+    // Define the refresh function
+    const refresh = useCallback((): void => {
+        const host = containerRef.current;
+        if (!host) return;
+
+        const svg = host.querySelector<SVGSVGElement>('svg');
+        if (!svg) return;
+        const today = svg.querySelector<SVGRectElement>('rect.today, .today');
+        if (!today) return;
+        const hostBox = host.getBoundingClientRect();
+        const tb = today.getBoundingClientRect();
+        setStyle({
+            position: 'absolute',
+            left: tb.left - hostBox.left - 1,
+            top: 0,
+            bottom: 0,
+            width: 0,
+            borderLeft: '2px dashed #10b981',
+        });
+    }, [containerRef]);
+
+    // Set up the effect to handle updates
     useEffect(() => {
         const host = containerRef.current;
         if (!host) return;
 
-        const refresh = () => {
-            const svg = host.querySelector<SVGSVGElement>('svg');
-            if (!svg) return;
-            const today = svg.querySelector<SVGRectElement>('rect.today, .today');
-            if (!today) return;
-            const hostBox = host.getBoundingClientRect();
-            const tb = today.getBoundingClientRect();
-            setStyle({
-                position: 'absolute',
-                left: tb.left - hostBox.left - 1,
-                top: 0,
-                bottom: 0,
-                width: 0,
-                borderLeft: '2px dashed #10b981',
-            });
-        };
+        // Initial refresh
+        refresh();
 
+        // Set up observers and event listeners
         const ro = new ResizeObserver(refresh);
         ro.observe(host);
+
         const timeline = host.querySelector<HTMLElement>('.ganttVerticalContainer') || host;
-        if (timeline) timeline.addEventListener('scroll', refresh, { passive: true });
+        timeline.addEventListener('scroll', refresh, { passive: true });
         window.addEventListener('resize', refresh, { passive: true });
+
+        // Schedule an initial refresh after a short delay
         const id = window.setTimeout(refresh, 80);
 
-        return () => {
+        // Cleanup function
+        return (): void => {
             clearTimeout(id);
             ro.disconnect();
-            if (timeline) timeline.removeEventListener('scroll', refresh);
+            timeline.removeEventListener('scroll', refresh);
             window.removeEventListener('resize', refresh);
         };
-    }, [containerRef]);
+    }, [containerRef, refresh]);
 
     if (!style) return null;
     return <div className="pointer-events-none" style={style} />;
 }
 
-const OnlyNameHeader: React.FC<any> = ({ headerHeight, rowWidth }) => (
+interface OnlyNameHeaderProps {
+    headerHeight: number;
+    rowWidth: number | string;
+}
+
+const OnlyNameHeader: React.FC<OnlyNameHeaderProps> = ({ headerHeight, rowWidth }) => (
     <div className="ganttTable_Header" style={{ height: headerHeight }}>
         <div className="taskListHeader" style={{ width: rowWidth }}>
             Name
@@ -376,13 +414,20 @@ const OnlyNameHeader: React.FC<any> = ({ headerHeight, rowWidth }) => (
 );
 
 // Name만 남기는 바디
-const OnlyNameTable: React.FC<any> = ({ tasks, rowHeight, rowWidth, onExpanderClick }) => (
+interface OnlyNameTableProps {
+    tasks: Task[];
+    rowHeight: number;
+    rowWidth: number | string;
+    onExpanderClick?: (task: Task) => void;
+}
+
+const OnlyNameTable: React.FC<OnlyNameTableProps> = ({ tasks, rowHeight, rowWidth, onExpanderClick }) => (
     <div className="ganttTable_body">
         {tasks.map((t: Task) => (
             <div key={t.id} className="taskListRow" style={{ height: rowHeight }}>
                 <div className="taskListCell flex items-center gap-2" style={{ width: rowWidth }}>
                     {/* 필요하면 펼침 토글 */}
-                    {typeof (t as any).hideChildren === 'boolean' && (
+                    {typeof (t as Task & { hideChildren?: boolean }).hideChildren === 'boolean' && (
                         <button
                             type="button"
                             className="expander"

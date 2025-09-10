@@ -3,7 +3,11 @@
 
 import { FormEvent, useState } from 'react';
 
-export default function EmailAuthStep({ onBack }: { onBack: () => void }) {
+interface EmailAuthStepProps {
+    onBack?: () => void;
+}
+
+export default function EmailAuthStep({ onBack }: EmailAuthStepProps) {
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
 

@@ -158,7 +158,7 @@ export default function NotifcationContainer() {
     const isAllChecked = allVisible.length > 0 && selectedIds.length === allVisible.length;
 
     const toggleAll = () => {
-        setSelectedIds(prev => (isAllChecked ? [] : allVisible.map(t => t.id)));
+        setSelectedIds(() => (isAllChecked ? [] : allVisible.map(t => t.id)));
     };
 
     const toggleOne = (id: string) => {

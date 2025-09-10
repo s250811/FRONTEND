@@ -152,7 +152,10 @@ function NavigationItem({
         className: mergedClassName,
     });
 
-    const a11y: Record<string, any> = {};
+    const a11y: {
+        'aria-expanded'?: boolean;
+        'aria-controls'?: string;
+    } = {};
     if (restA11y['aria-expanded'] === true) a11y['aria-expanded'] = true;
     if (typeof restA11y['aria-controls'] === 'string' && restA11y['aria-controls'])
         a11y['aria-controls'] = restA11y['aria-controls'];
