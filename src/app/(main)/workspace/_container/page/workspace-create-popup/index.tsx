@@ -13,13 +13,21 @@ export default function WorkspaceCreateModal({
     open,
     onClose,
     onCreate,
-    defaultValues,
+    defaultValues = {},
 }: {
     open: boolean;
     onClose: () => void;
     onCreate?: (payload: CreateWorkspacePayload) => void;
     defaultValues?: Partial<CreateWorkspacePayload>;
 }) {
+    // ===== state =====
+    const [workspaceName, setWorkspaceName] = useState(defaultValues?.name ?? '');
+    const [description, setDescription] = useState(defaultValues?.description ?? '');
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(defaultValues?.avatar ?? null);
+    const nameId = useId();
+    const descId = useId();
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     if (!open) return null;
 
     // ===== styles (모달 전용) =====
@@ -70,14 +78,6 @@ export default function WorkspaceCreateModal({
     });
     const divider = tv({ base: 'h-px bg-gray-100' });
     const footer = tv({ base: 'flex items-center justify-end gap-3 px-8 py-5' });
-
-    // ===== state =====
-    const [workspaceName, setWorkspaceName] = useState(defaultValues?.name ?? '');
-    const [description, setDescription] = useState(defaultValues?.description ?? '');
-    const [avatarUrl, setAvatarUrl] = useState<string | null>(defaultValues?.avatar ?? null);
-    const nameId = useId();
-    const descId = useId();
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const clampLen = (s: string, max: number) => (s.length > max ? s.slice(0, max) : s);
     const onPickFile = () => fileInputRef.current?.click();

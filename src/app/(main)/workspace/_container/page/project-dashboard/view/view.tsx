@@ -1,8 +1,11 @@
 'use client';
 
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState } from 'react';
+import { SummaryCard } from './SummaryCard';
 import { tv } from 'tailwind-variants';
 import TaskDetailModal from '../../task-detail-popup/view/task-detail-modal';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import ProjectAnalysisModal from '../../task-detail-summary-popup';
 import dynamic from 'next/dynamic';
 const GanttChart = dynamic(() => import('@/app/(main)/workspace/_container/page/project-dashboard-gantt'), {
     ssr: false,
@@ -23,9 +26,8 @@ const badge = tv({
     defaultVariants: { tone: 'gray' },
 });
 
-const iconButton = tv({
-    base: 'inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors',
-});
+const iconButton = () =>
+    'rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-500 transition-colors';
 
 const statCard = tv({
     base: 'relative rounded-2xl border p-4 md:p-6 transition-colors bg-white',
@@ -135,24 +137,7 @@ function Check() {
     );
 }
 
-function useClickOutside<T extends HTMLElement>(open: boolean, onClose: () => void) {
-    const ref = useRef<T | null>(null);
-    useEffect(() => {
-        if (!open) return;
-        const handler = (e: MouseEvent) => {
-            if (!ref.current) return;
-            if (!ref.current.contains(e.target as Node)) onClose();
-        };
-        window.addEventListener('mousedown', handler);
-        return () => window.removeEventListener('mousedown', handler);
-    }, [open, onClose]);
-    return ref;
-}
-
 function HeaderRight() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const menuRef = useClickOutside<HTMLDivElement>(menuOpen, () => setMenuOpen(false));
-
     return (
         <div className="flex items-center gap-3">
             {/* 멤버 아바타 + 텍스트 */}
@@ -172,56 +157,6 @@ function HeaderRight() {
                     Alice, Bob, Charlie <span className="text-gray-400">+12 others</span>
                 </span>
             </div>
-
-            {/* AI 분석: 그라데이션 초록 pill */}
-            <button
-                className="inline-flex items-center rounded-full px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm
-                     bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-400/90 hover:to-emerald-500/90"
-            >
-                AI분석
-            </button>
-
-            {/* ... 버튼 + 드롭다운 (우측 정렬) */}
-            <div className="relative" ref={menuRef}>
-                <button
-                    aria-label="header menu"
-                    onClick={() => setMenuOpen(v => !v)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                >
-                    <Dots />
-                </button>
-
-                {menuOpen && (
-                    <div className="absolute right-0 mt-2 w-44 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg ring-1 ring-black/5 z-50">
-                        <ul className="py-1 text-sm text-gray-700">
-                            <li>
-                                <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-emerald-100">
-                                        +
-                                    </span>
-                                    폴더 추가하기
-                                </button>
-                            </li>
-                            <li>
-                                <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded border border-gray-200">
-                                        ⎘
-                                    </span>
-                                    복제하기
-                                </button>
-                            </li>
-                            <li>
-                                <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-rose-100">
-                                        ▢
-                                    </span>
-                                    삭제하기
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                )}
-            </div>
         </div>
     );
 }
@@ -237,10 +172,11 @@ export default function ProjectDashboardPage() {
     const [subAView, setSubAView] = useState<'wbs' | 'gantt'>('wbs');
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState<{ task: string; assignee: string; progress: number } | null>(null);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useClickOutside<HTMLDivElement>(menuOpen, () => setMenuOpen(false));
+    const [analysisOpen, setAnalysisOpen] = useState(false);
 
-    const [plusOpen, setPlusOpen] = useState(false);
     const [cardMenuOpen, setCardMenuOpen] = useState<Record<string, boolean>>({});
-    const plusRef = useClickOutside<HTMLDivElement>(plusOpen, () => setPlusOpen(false));
 
     const toggleRow = (idx: number) => setSelected(prev => ({ ...prev, [idx]: !prev[idx] }));
 
@@ -257,24 +193,76 @@ export default function ProjectDashboardPage() {
 
     return (
         <>
-            <div className="min-h-dvh bg-gray-50">
+            <div className="min-h-dvh bg-[#FFFFFF]">
                 {/* Top Bar */}
-                <header className="sticky top-0 z-20 border-b border-gray-200 bg-white/70 backdrop-blur">
-                    <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-                        {/* 왼쪽: Active 배지 + 프로젝트명 + 화살표 */}
+                <header className="sticky top-0 z-20 bg-white/70 backdrop-blur pt-28 pb-0">
+                    <div className="mx-auto max-w-6xl px-4 py-3">
+                        {/* 한 줄(Row) */}
                         <div className="flex items-center gap-2">
+                            {/* 왼쪽: Active + 타이틀 */}
                             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
                                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                                 Active
                             </span>
-
                             <h1 className="flex items-center gap-1 text-xl font-semibold text-gray-900">
                                 상위 프로젝트 이름
                                 <ChevronDown />
                             </h1>
+
+                            {/* 오른쪽: AI분석 + ... 드롭다운 (우측 밀착) */}
+                            <div className="ml-auto flex items-center gap-2" ref={menuRef}>
+                                <button
+                                    onClick={() => setAnalysisOpen(v => !v)}
+                                    className="inline-flex items-center rounded-full px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm
+                     bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-400/90 hover:to-emerald-500/90"
+                                >
+                                    AI분석
+                                </button>
+
+                                <div className="relative">
+                                    <button
+                                        aria-label="header menu"
+                                        onClick={() => setMenuOpen(v => !v)}
+                                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                    >
+                                        <Dots />
+                                    </button>
+
+                                    {menuOpen && (
+                                        <div className="absolute right-0 mt-2 w-44 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg ring-1 ring-black/5 z-50">
+                                            <ul className="py-1 text-sm text-gray-700">
+                                                <li>
+                                                    <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                                                        <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-emerald-100">
+                                                            +
+                                                        </span>
+                                                        폴더 추가하기
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                                                        <span className="inline-flex h-5 w-5 items-center justify-center rounded border border-gray-200">
+                                                            ⎘
+                                                        </span>
+                                                        복제하기
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                                                        <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-rose-100">
+                                                            ▢
+                                                        </span>
+                                                        삭제하기
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
-                        {/* 오른쪽: 멤버 + AI버튼 + ... 메뉴 */}
+                        {/* 필요 시 두 번째 줄: 멤버 영역 */}
                         <HeaderRight />
                     </div>
                 </header>
@@ -288,53 +276,49 @@ export default function ProjectDashboardPage() {
                         </h2>
 
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                            {summary.map(s => {
-                                const isGreen = s.tone === 'green';
-                                const menuOpen = !!cardMenuOpen[s.id];
-                                const ref = useClickOutside<HTMLDivElement>(menuOpen, () =>
-                                    setCardMenuOpen(prev => ({ ...prev, [s.id]: false }))
-                                );
-                                return (
-                                    <div key={s.id} className={statCard({ tone: isGreen ? 'green' : 'gray' })}>
-                                        <div className="flex items-start justify-between">
-                                            <div className="space-y-1.5">
-                                                <p className="text-sm font-medium text-gray-600">{s.name}</p>
-                                                <div className="flex items-end gap-2">
-                                                    <div className={kpi()}>{s.points}</div>
-                                                    <span className="text-xs text-gray-400">{s.percent}%</span>
-                                                </div>
-                                            </div>
-                                            <div className="relative" ref={ref}>
-                                                <button
-                                                    className={iconButton()}
-                                                    aria-label="card menu"
-                                                    onClick={() =>
-                                                        setCardMenuOpen(prev => ({ ...prev, [s.id]: !prev[s.id] }))
-                                                    }
-                                                >
-                                                    <Dots />
-                                                </button>
-                                                {menuOpen && (
-                                                    <div className={dropdownPanel()}>
-                                                        <ul className="py-1 text-sm text-gray-700">
-                                                            <li>
-                                                                <button className="block w-full px-3 py-2 text-left hover:bg-gray-50">
-                                                                    상세보기
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <button className="block w-full px-3 py-2 text-left hover:bg-gray-50">
-                                                                    편집
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                )}
-                                            </div>
+                            {summary.map(s => (
+                                <SummaryCard
+                                    key={s.id}
+                                    id={s.id}
+                                    name={s.name}
+                                    points={s.points}
+                                    percent={s.percent}
+                                    tone={s.tone === 'green' ? 'green' : 'gray'}
+                                    isOpen={!!cardMenuOpen[s.id]}
+                                    onToggle={id => {
+                                        setCardMenuOpen(prev => ({
+                                            ...prev,
+                                            [id]: !prev[id]
+                                        }));
+                                    }}
+                                >
+                                    <button
+                                        className={iconButton()}
+                                        aria-label="card menu"
+                                        onClick={() =>
+                                            setCardMenuOpen(prev => ({ ...prev, [s.id]: !prev[s.id] }))
+                                        }
+                                    >
+                                        <Dots />
+                                    </button>
+                                    {cardMenuOpen[s.id] && (
+                                        <div className="absolute right-0 z-10 mt-1 w-40 rounded-lg border border-gray-100 bg-white p-1 shadow-lg">
+                                            <button className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
+                                                <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                                Rename
+                                            </button>
+                                            <button className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm text-red-600 hover:bg-red-50">
+                                                <svg className="h-4 w-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                                Delete
+                                            </button>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    )}
+                                </SummaryCard>
+                            ))}
                         </div>
                     </section>
 
@@ -468,6 +452,7 @@ export default function ProjectDashboardPage() {
                 </main>
             </div>
             <TaskDetailModal open={modalOpen} onClose={() => setModalOpen(false)} task={selectedTask} />
+            <ProjectAnalysisModal open={analysisOpen} onClose={() => setAnalysisOpen(false)} />
         </>
     );
 }
