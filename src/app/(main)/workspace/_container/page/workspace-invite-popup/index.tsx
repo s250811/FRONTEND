@@ -14,6 +14,20 @@ export default function WorkspaceInviteModal({
     onClose: () => void;
     onInvite?: (payload: InvitePayload) => void;
 }) {
+    // State and hooks must be called unconditionally at the top level
+    const [email, setEmail] = useState('');
+    const emailId = useId();
+
+    // Effect for handling ESC key
+    useEffect(() => {
+        if (!open) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose();
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [onClose, open]);
+
     if (!open) return null;
 
     // ----- styles (모달 전용) -----
@@ -57,24 +71,11 @@ export default function WorkspaceInviteModal({
     const divider = tv({ base: 'h-px bg-gray-100' });
     const footer = tv({ base: 'flex items-center justify-end gap-3 px-8 py-5' });
 
-    // ----- state -----
-    const [email, setEmail] = useState('');
-    const emailId = useId();
-
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
         e.preventDefault();
         if (!email) return;
         onInvite?.({ email });
     };
-
-    // ESC 닫기
-    useEffect(() => {
-        const onKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose();
-        };
-        window.addEventListener('keydown', onKey);
-        return () => window.removeEventListener('keydown', onKey);
-    }, [onClose]);
 
     return (
         <div className={overlay()} role="dialog" aria-modal="true" aria-labelledby="invite-modal-title">
