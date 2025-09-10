@@ -3,7 +3,7 @@ import { tv } from 'tailwind-variants';
 
 export const nav = {
     aside: tv({
-        base: 'h-screen border-r border-[#F4F4F4] p-10 space-y-3 bg-white flex flex-col',
+        base: 'h-screen border-r border-[#F4F4F4] p-10 space-y-3 bg-[#F4F4F4] flex flex-col',
     }),
     header: tv({
         base: 'flex items-center gap-2 text-gray-800 font-semibold',
