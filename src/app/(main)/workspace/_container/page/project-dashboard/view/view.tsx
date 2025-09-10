@@ -3,6 +3,7 @@
 import { useMemo, useState, useRef, useEffect } from 'react';
 import { tv } from 'tailwind-variants';
 import TaskDetailModal from '../../task-detail-popup/view/task-detail-modal';
+import ProjectAnalysisModal from '../../task-detail-summary-popup';
 import dynamic from 'next/dynamic';
 const GanttChart = dynamic(() => import('@/app/(main)/workspace/_container/page/project-dashboard-gantt'), {
     ssr: false,
@@ -150,9 +151,6 @@ function useClickOutside<T extends HTMLElement>(open: boolean, onClose: () => vo
 }
 
 function HeaderRight() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const menuRef = useClickOutside<HTMLDivElement>(menuOpen, () => setMenuOpen(false));
-
     return (
         <div className="flex items-center gap-3">
             {/* 멤버 아바타 + 텍스트 */}
@@ -172,56 +170,6 @@ function HeaderRight() {
                     Alice, Bob, Charlie <span className="text-gray-400">+12 others</span>
                 </span>
             </div>
-
-            {/* AI 분석: 그라데이션 초록 pill */}
-            <button
-                className="inline-flex items-center rounded-full px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm
-                     bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-400/90 hover:to-emerald-500/90"
-            >
-                AI분석
-            </button>
-
-            {/* ... 버튼 + 드롭다운 (우측 정렬) */}
-            <div className="relative" ref={menuRef}>
-                <button
-                    aria-label="header menu"
-                    onClick={() => setMenuOpen(v => !v)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                >
-                    <Dots />
-                </button>
-
-                {menuOpen && (
-                    <div className="absolute right-0 mt-2 w-44 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg ring-1 ring-black/5 z-50">
-                        <ul className="py-1 text-sm text-gray-700">
-                            <li>
-                                <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-emerald-100">
-                                        +
-                                    </span>
-                                    폴더 추가하기
-                                </button>
-                            </li>
-                            <li>
-                                <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded border border-gray-200">
-                                        ⎘
-                                    </span>
-                                    복제하기
-                                </button>
-                            </li>
-                            <li>
-                                <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
-                                    <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-rose-100">
-                                        ▢
-                                    </span>
-                                    삭제하기
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                )}
-            </div>
         </div>
     );
 }
@@ -237,6 +185,9 @@ export default function ProjectDashboardPage() {
     const [subAView, setSubAView] = useState<'wbs' | 'gantt'>('wbs');
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState<{ task: string; assignee: string; progress: number } | null>(null);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useClickOutside<HTMLDivElement>(menuOpen, () => setMenuOpen(false));
+    const [analysisOpen, setAnalysisOpen] = useState(false);
 
     const [plusOpen, setPlusOpen] = useState(false);
     const [cardMenuOpen, setCardMenuOpen] = useState<Record<string, boolean>>({});
@@ -257,24 +208,76 @@ export default function ProjectDashboardPage() {
 
     return (
         <>
-            <div className="min-h-dvh bg-gray-50">
+            <div className="min-h-dvh bg-[#FFFFFF]">
                 {/* Top Bar */}
-                <header className="sticky top-0 z-20 border-b border-gray-200 bg-white/70 backdrop-blur">
-                    <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-                        {/* 왼쪽: Active 배지 + 프로젝트명 + 화살표 */}
+                <header className="sticky top-0 z-20 bg-white/70 backdrop-blur pt-28 pb-0">
+                    <div className="mx-auto max-w-6xl px-4 py-3">
+                        {/* 한 줄(Row) */}
                         <div className="flex items-center gap-2">
+                            {/* 왼쪽: Active + 타이틀 */}
                             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
                                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                                 Active
                             </span>
-
                             <h1 className="flex items-center gap-1 text-xl font-semibold text-gray-900">
                                 상위 프로젝트 이름
                                 <ChevronDown />
                             </h1>
+
+                            {/* 오른쪽: AI분석 + ... 드롭다운 (우측 밀착) */}
+                            <div className="ml-auto flex items-center gap-2" ref={menuRef}>
+                                <button
+                                    onClick={() => setAnalysisOpen(v => !v)}
+                                    className="inline-flex items-center rounded-full px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm
+                     bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-400/90 hover:to-emerald-500/90"
+                                >
+                                    AI분석
+                                </button>
+
+                                <div className="relative">
+                                    <button
+                                        aria-label="header menu"
+                                        onClick={() => setMenuOpen(v => !v)}
+                                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                                    >
+                                        <Dots />
+                                    </button>
+
+                                    {menuOpen && (
+                                        <div className="absolute right-0 mt-2 w-44 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg ring-1 ring-black/5 z-50">
+                                            <ul className="py-1 text-sm text-gray-700">
+                                                <li>
+                                                    <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                                                        <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-emerald-100">
+                                                            +
+                                                        </span>
+                                                        폴더 추가하기
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                                                        <span className="inline-flex h-5 w-5 items-center justify-center rounded border border-gray-200">
+                                                            ⎘
+                                                        </span>
+                                                        복제하기
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button className="flex w-full items-center gap-2 px-3 py-2 hover:bg-gray-50">
+                                                        <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-rose-100">
+                                                            ▢
+                                                        </span>
+                                                        삭제하기
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
-                        {/* 오른쪽: 멤버 + AI버튼 + ... 메뉴 */}
+                        {/* 필요 시 두 번째 줄: 멤버 영역 */}
                         <HeaderRight />
                     </div>
                 </header>
@@ -468,6 +471,7 @@ export default function ProjectDashboardPage() {
                 </main>
             </div>
             <TaskDetailModal open={modalOpen} onClose={() => setModalOpen(false)} task={selectedTask} />
+            <ProjectAnalysisModal open={analysisOpen} onClose={() => setAnalysisOpen(false)} />
         </>
     );
 }
