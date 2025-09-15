@@ -1,0 +1,7 @@
+{
+    "port": 4000,
+    "watch": true,
+    "routes": "mock/routes.json",
+    "middlewares": ["mock/middleware.js"]
+  }
+  
