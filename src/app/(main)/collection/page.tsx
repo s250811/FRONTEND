@@ -1,7 +1,7 @@
-'use client';
+import { loadTrashList } from './_data/route.loader';
+import View from './_ui/view';
 
-import CollectionContainer from './_container/page/collection';
-
-export default function Collection() {
-    return <CollectionContainer />;
+export default async function Collection() {
+    const vm = await loadTrashList();
+    return <View {...vm} />;
 }
