@@ -1,7 +1,7 @@
-'use client';
+import { loadNotificationsVM } from './_data/route.loader';
+import View from './_ui/view';
 
-import NotifcationContainer from './_container/page/notification';
-
-export default function Notification() {
-    return <NotifcationContainer />;
+export default async function Page() {
+    const vm = await loadNotificationsVM();
+    return <View {...vm} />;
 }
